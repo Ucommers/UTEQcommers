@@ -1,0 +1,172 @@
+// For information on how to create your own theme, please see:
+// http://ionicframework.com/docs/theming/
+// src/theme/variables.scss
+
+// Variables globales de tema claro
+:root {
+  --primary-all-v1: #3079f8;
+  --primary-all-v2: #3079f8;
+}
+
+body{
+  background-color: #3079f8;
+}
+
+.barra_web1 {
+  background-color: var(--primary-all-v1) !important; // Usa tu variable de color
+  // position: absolute; 
+}
+
+// abrra inferioir en web 
+.barra_web1 ion-button {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.barra_web2{
+  // background: linear-gradient(to top, var(--primary-all-v1) 0%, rgba(255, 255, 255, 1) 100%) !important;
+  background-color: rgb(0, 0, 0) !important; // Usa tu variable de color
+}
+
+.barra_web2 ion-tab-button {
+  color: var(--primary-all-v1);
+  background-color: rgba(255, 255, 255, 0.075);
+  border-radius: 0px;
+  margin: auto;
+  font-weight: bold;
+}
+
+
+ion-header {
+  box-shadow: none !important;
+}
+
+ion-loading.my-custom-loading {
+
+  /*.spinner {
+    display: none;
+  }*/
+  .loading-wrapper {
+    background: transparent url('../assets/images/duck.gif') no-repeat center center;
+    // background-size: contain;
+    background-size: 200px 200px;
+    /* to change dimension of background */
+    padding-top: 200px;
+    /* padding top of white square */
+    padding-bottom: 200px;
+    /* padding bottom of white square */
+    padding-left: 200px;
+    padding-right: 200px;
+    /* Removemos la sombra del borde que le da altura*/
+    box-shadow: none;
+  }
+}
+
+ion-loading.my-custom-loading-2 {
+
+  /*.spinner {
+    display: none;
+  }*/
+  .loading-wrapper {
+    background: transparent url('../assets/images/tim-gilardi-bunny-loading-animation3.gif') no-repeat center center;
+    // background-size: contain;
+    background-size: 200px 200px;
+    /* to change dimension of background */
+    padding-top: 200px;
+    /* padding top of white square */
+    padding-bottom: 200px;
+    /* padding bottom of white square */
+    padding-left: 200px;
+    padding-right: 200px;
+    /* Removemos la sombra del borde que le da altura*/
+    box-shadow: none;
+  }
+}
+
+ion-loading.my-custom-loading-3 {
+
+  /*.spinner {
+    display: none;
+  }*/
+  .loading-wrapper {
+    background: transparent url('../assets/images/Loading.gif') no-repeat center center;
+    // background-size: contain;
+    background-size: 200px 200px;
+    /* to change dimension of background */
+    padding-top: 200px;
+    /* padding top of white square */
+    padding-bottom: 200px;
+    /* padding bottom of white square */
+    padding-left: 200px;
+    padding-right: 200px;
+    /* Removemos la sombra del borde que le da altura*/
+    box-shadow: none;
+  }
+}
+
+// ----------------- ⬇️💫 -------------------------------- 
+
+// tamaño del icono versión 1 
+.size_icon_v1 {
+  font-size: 30px;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+// margen del container 
+.container_css {
+  margin: 1rem;
+  margin-bottom: 5rem;
+}
+
+// Tamaño del menú lateral 
+.menu_size {
+  width: 20px;
+}
+
+.ocultar_web {
+  display: none;
+}
+
+.mostrar_web {
+  display: block;
+}
+
+
+// ----------------- 
+// ----------------- 
+
+/* Para pantallas de móviles (hasta 480px) */
+@media (max-width: 480px) {
+  .ocultar_movil {
+    display: none;
+  }
+
+  .mostrar_movil {
+    display: block;
+  }
+}
+
+/* Para pantallas de tablets pequeñas (entre 481px y 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+
+  .ocultar_movil {
+    display: none;
+  }
+
+  .mostrar_movil {
+    display: block;
+  }
+
+}
+
+// --- WEB ☢️ 
+
+/* Para pantallas de tablets grandes (entre 769px y 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {}
+
+/* Para pantallas de escritorio pequeñas (entre 1025px y 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+/* Para pantallas de escritorio grandes (más de 1280px) */
+@media (min-width: 1281px) {}

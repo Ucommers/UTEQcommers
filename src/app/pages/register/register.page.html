@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro de nuevo usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content  class="ion-padding">
+  <div class="register-container">
+    <form class="mt-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <!-- Nombre -->
+        <ion-item>
+          <ion-input formControlName="nombre" label="Nombre" labelPlacement="floating" placeholder=""></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.controls['nombre'].invalid && registerForm.controls['nombre'].touched" color="danger">
+          Nombre es requerido.
+        </ion-note>
+
+        <!-- Apellido Paterno -->
+        <ion-item>
+          <ion-input formControlName="apellido_paterno" label="Apellido Paterno" labelPlacement="floating" placeholder=""></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.controls['apellido_paterno'].invalid && registerForm.controls['apellido_paterno'].touched" color="danger">
+          Apellido Paterno es requerido.
+        </ion-note>
+
+        <!-- Apellido Materno -->
+        <ion-item>
+          <ion-input formControlName="apellido_materno" label="Apellido Materno" labelPlacement="floating" placeholder=""></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.controls['apellido_materno'].invalid && registerForm.controls['apellido_materno'].touched" color="danger">
+          Apellido Materno es requerido.
+        </ion-note>
+
+        <!-- Email -->
+        <ion-item>
+          <ion-input formControlName="email" type="email" label="Email" labelPlacement="floating"
+            placeholder="nombre@gmail.com"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched" color="danger">
+          Ingresa un email válido de Gmail.
+        </ion-note>
+
+        <!-- Contraseña -->
+        <ion-item>
+          <ion-input formControlName="password" type="password" label="Contraseña" labelPlacement="floating"
+            placeholder="--- --- --- --- ---"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched" color="danger">
+          La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.
+        </ion-note>
+
+        <!-- Repetir Contraseña -->
+        <ion-item>
+          <ion-input formControlName="confirm_password" type="password" label="Repetir Contraseña"
+            labelPlacement="floating" placeholder="--- --- --- --- ---"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.controls['confirm_password'].touched" color="danger">
+          Las contraseñas no coinciden.
+        </ion-note>
+
+      </ion-list>
+
+      <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">Registrar</ion-button>
+    </form>
+  </div>
+</ion-content>

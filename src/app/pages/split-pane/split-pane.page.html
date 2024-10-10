@@ -1,0 +1,131 @@
+<!-- MENÚ INFERIOR PARA LA WEB 💻  -->
+<ion-header *ngIf="isLargeScreen" >
+  <ion-toolbar class="barra_web1" color="nome">
+    <ion-title>
+      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav">
+    </ion-title>
+    <!-- Menú de navegación superior -->
+    <ion-buttons class="menu-button" slot="end">
+      <!-- Iteración de las páginas según el estado de autenticación -->
+      <ng-container *ngFor="let p of pages">
+        <ion-button *ngIf="p.authRequired === isLoggedIn || !p.authRequired" [routerLink]="p.url"
+          router-direction="root" [class.active-item]="selectedPath === p.url">
+          <!-- <ion-icon [name]="p.icon" slot="start"></ion-icon> -->
+          {{ p.title }}
+        </ion-button>
+      </ng-container>
+
+      <!-- Mostrar si NO está autenticado -->
+      <ng-container *ngIf="!isLoggedIn">
+        <ion-button [routerLink]="'./login'" router-direction="root">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Iniciar sesión
+        </ion-button>
+      </ng-container>
+      <ion-button shape="round" *ngIf="isLoggedIn">
+        <ion-icon name="heart-sharp"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" *ngIf="isLoggedIn">
+        <ion-icon name="cart-sharp"></ion-icon>
+      </ion-button>
+      <!-- Botón que abre el menú lateral -->
+      <ion-button shape="round" *ngIf="isLoggedIn" (click)="openMenu()">
+        <ion-icon name="settings-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- Fin de menú de navegación superior -->
+  </ion-toolbar>
+</ion-header>
+
+<!-- BODY  -->
+<ion-content>
+  <!-- ---  -->
+  <ion-fab slot="fixed" *ngIf="isLargeScreen" class="custom-fab">
+    <ion-fab-button color="primary">
+      <ion-icon name="chevron-up-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button>
+        <ion-icon name="document"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="color-palette"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="globe"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <!-- ---  -->
+  <ion-router-outlet id="content"></ion-router-outlet>
+</ion-content>
+
+<!-- MENU INFERIOR DE APP MOVIL 📱-- medium  -->
+<ion-tabs *ngIf="!isLargeScreen">
+  <ion-tab-bar slot="bottom" color="none" class="barra_web2" >
+    <!-- Iteración de las páginas según el estado de autenticación -->
+    <ng-container *ngFor="let p of pages" >
+      <ion-tab-button *ngIf="p.authRequired === isLoggedIn || !p.authRequired" [routerLink]="p.url"
+        routerDirection="root">
+        <ion-icon  [name]="p.icon"></ion-icon>
+        <ion-label>{{ p.title }}</ion-label>
+      </ion-tab-button>
+    </ng-container>
+  </ion-tab-bar>
+</ion-tabs>
+
+<!-- MENÚ SUPERIOR QUE ABRE MENÚ LATERAL 📱 -->
+<ion-header *ngIf="!isLargeScreen">
+  <ion-toolbar class="barra_web1"  color="nome">
+    <ion-title>
+      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav">
+    </ion-title>
+    <!-- ---  -->
+    <ion-buttons class="menu-button" slot="end">
+      <ion-button shape="round" *ngIf="isLoggedIn">
+        <ion-icon name="heart-sharp"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" *ngIf="isLoggedIn">
+        <ion-icon name="cart-sharp"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" *ngIf="!isLoggedIn" [routerLink]="'./login'">
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+        Iniciar sesión
+      </ion-button>
+      <!-- Botón que abre el menú lateral -->
+      <ion-button shape="round" *ngIf="isLoggedIn" (click)="openMenu()">
+        <ion-icon name="settings-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- ---  -->
+  </ion-toolbar>
+</ion-header>
+
+<!-- MENÚ LATERAL MOVIL 📱 Y WEB  💻  -->
+<ion-menu side="end" menuId="main-menu" contentId="content" class="custom-menu">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title class="menu-title">Más obciones</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="content_menu">
+    <ion-list class="list_menu">
+      <ion-item class="menu-item">
+        <ion-icon name="settings-sharp" class="menu-icon"></ion-icon>
+        Configuraciones
+      </ion-item>
+      <ion-item class="menu-item">
+        <ion-icon name="help-outline" class="menu-icon"></ion-icon>
+        Ayuda
+      </ion-item>
+      <ion-item class="menu-item" (click)="logout()">
+        Cerrar sesión
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>

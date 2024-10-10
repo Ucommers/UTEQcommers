@@ -1,0 +1,30 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-icon class="size_icon_v1 ocultar_movil" name="menu-outline" slot="start" (click)="toggleMenu()"></ion-icon>
+    <ion-title>
+      Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="custom-background">
+  <div class="login-container">
+    <img src="assets/images/UTEQC.png" alt="Logo" class="logo-img img_v2">
+    <form class="mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input formControlName="username" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">Login</ion-button>
+      <p class="register-link">
+        ¿No tienes una cuenta? <a routerLink="/register">Regístrate aquí</a>
+      </p>
+    </form>
+  </div>
+</ion-content>

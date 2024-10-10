@@ -1,0 +1,45 @@
+.css_img {
+    width: 3px;
+    height: auto;
+}
+
+
+
+// ----------------- 
+// ----------------- 
+
+/* Para pantallas de móviles (hasta 480px) */
+@media (max-width: 480px) {
+    ion-content {
+        --padding-top: 2rem !important;
+    }
+
+    .css_img {
+        width: 25px;
+        height: auto;
+    }
+}
+
+/* Para pantallas de tablets pequeñas (entre 481px y 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+
+    ion-content {
+        --padding-top: 4rem !important;
+    }
+
+    .css_img {
+        width: 25px;
+        height: auto;
+    }
+}
+
+/* Para pantallas de tablets grandes (entre 769px y 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {}
+
+// --- WEB ☢️ 
+
+/* Para pantallas de escritorio pequeñas (entre 1025px y 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+/* Para pantallas de escritorio grandes (más de 1280px) */
+@media (min-width: 1281px) {}
