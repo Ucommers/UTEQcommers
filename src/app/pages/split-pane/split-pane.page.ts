@@ -2,43 +2,76 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, Platform, MenuController  } from '@ionic/angular';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-split-pane',
   templateUrl: './split-pane.page.html',
   styleUrls: ['./split-pane.page.scss'],
+  animations: [
+    trigger('slideInRight', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('500ms ease-in', style({ transform: 'translateX(0)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class SplitPanePage implements OnInit {
-  pages = [
+  pagesWeb = [
     {
       title: 'Home',
       url: './home',
       icon: 'home',
+      rol : ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
-    // {
-    //   title: 'Grid page',
-    //   url: './grid-page',
-    //   icon: 'qr-code-outline',
-    //   authRequired: false,
-    // },
     {
       title: 'Trabajos',
       url: './trabajos',
       icon: 'code-working',
+      rol : ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
-      title: 'Prueba',
-      url: './prueba',
+      title: 'Productos',
+      url: './productos',
       icon: 'logo-tux',
+      rol : ['vendedor'],
       authRequired: true,
     },
   ];
 
+  pagesAll = [
+    {
+      title: 'Ayuda',
+      url: './ayuda',
+      icon: 'help-outline',
+      rol : ['comprador', 'vendedor', 'administrador'],
+      authRequired: false,
+    },
+    {
+      title: 'Configuraciones',
+      url: './configuraciones',
+      icon: 'settings-sharp',
+      rol : ['comprador', 'vendedor', 'administrador'],
+      authRequired: true,
+    },
+    {
+      title: 'Mis datos',
+      url: './mis-datos',
+      icon: 'person-circle-outline',
+      rol : ['comprador', 'vendedor', 'administrador'],
+      authRequired: true,
+    },
+  ];
+  
+
+
   selectedPath = '';
   public isLargeScreen: boolean;
   public isLoggedIn: boolean = false;
+  currentUser: any; // almacenar los datos del usuario
 
   constructor(
     private router: Router,
@@ -64,6 +97,7 @@ export class SplitPanePage implements OnInit {
   openMenu() {
     this.menuCtrl.open('main-menu');
   }
+
   closeMenu() {
     this.menuCtrl.close('main-menu'); // Asegúrate de usar el menuId correcto
   }
@@ -72,8 +106,13 @@ export class SplitPanePage implements OnInit {
   // Actualización del estado: Cada vez que el observable emite un nuevo valor, la función de callback se ejecuta, actualizando la propiedad isLoggedIn con el valor actual (true o false). Esto permite que el componente responda a cambios en el estado de autenticación.
   ngOnInit() {
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn; // Actualiza el estado de autenticación
+      this.isLoggedIn = loggedIn; 
     });
+    
+    // Obtener el usuario actual 
+    this.currentUser = this.authService.currentUserValue;
+    // Mostrar los datos del usuario en la consola
+    // console.log('Datos del usuario:', this.currentUser);
   }
 
   checkScreenSize() {
@@ -95,7 +134,7 @@ export class SplitPanePage implements OnInit {
           text: 'Cerrar Sesión',
           handler: () => {
             this.authService.logout();
-            this.router.navigate(['_/home'], { replaceUrl: true }); // Usa replaceUrl para evitar el error
+            this.router.navigate(['_/home'], { replaceUrl: true }); 
           },
         },
       ],

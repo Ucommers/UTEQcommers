@@ -1,37 +1,36 @@
-<!-- MENÚ INFERIOR PARA LA WEB 💻  -->
-<ion-header *ngIf="isLargeScreen" >
+<!-- MENÚ INFERIOR PARA LA WEB 💻  && p.rol.includes(currentUser?.tipo) -->
+<ion-header *ngIf="isLargeScreen">
   <ion-toolbar class="barra_web1" color="nome">
-    <ion-title>
-      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav">
-    </ion-title>
+    <!-- <ion-title>
+      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav" loading="lazy">
+    </ion-title> -->
     <!-- Menú de navegación superior -->
     <ion-buttons class="menu-button" slot="end">
-      <!-- Iteración de las páginas según el estado de autenticación -->
-      <ng-container *ngFor="let p of pages">
-        <ion-button *ngIf="p.authRequired === isLoggedIn || !p.authRequired" [routerLink]="p.url"
-          router-direction="root" [class.active-item]="selectedPath === p.url">
-          <!-- <ion-icon [name]="p.icon" slot="start"></ion-icon> -->
+      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav" loading="lazy">
+      <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
+      <ng-container *ngFor="let p of pagesWeb">
+        <ion-button class="btn_decorate_all" *ngIf="(p.authRequired === isLoggedIn || !p.authRequired)"
+          [routerLink]="p.url" router-direction="root">
           {{ p.title }}
         </ion-button>
       </ng-container>
-
-      <!-- Mostrar si NO está autenticado -->
-      <ng-container *ngIf="!isLoggedIn">
-        <ion-button [routerLink]="'./login'" router-direction="root">
-          <ion-icon name="log-in-outline" slot="start"></ion-icon>
-          Iniciar sesión
-        </ion-button>
-      </ng-container>
-      <ion-button shape="round" *ngIf="isLoggedIn">
+      <ion-button *ngIf="!isLoggedIn" class="btn_decorate_all" [routerLink]="'./login'" router-direction="root">
+        Iniciar sesión
+      </ion-button>
+      <ion-button class="btn_decorate_all" *ngIf="isLoggedIn" shape="round">
         <ion-icon name="heart-sharp"></ion-icon>
       </ion-button>
-      <ion-button shape="round" *ngIf="isLoggedIn">
+      <ion-button class="btn_decorate_all" *ngIf="isLoggedIn" shape="round">
         <ion-icon name="cart-sharp"></ion-icon>
       </ion-button>
       <!-- Botón que abre el menú lateral -->
-      <ion-button shape="round" *ngIf="isLoggedIn" (click)="openMenu()">
-        <ion-icon name="settings-sharp"></ion-icon>
+      <ion-button class="btn_decorate_all" (click)="openMenu()">
+        <span style="padding: 5px;" *ngIf="isLoggedIn && currentUser">
+          {{ currentUser.nombre }}
+        </span>
+        <ion-icon name="list-outline"></ion-icon>
       </ion-button>
+      <!-- </span> -->
     </ion-buttons>
     <!-- Fin de menú de navegación superior -->
   </ion-toolbar>
@@ -62,40 +61,48 @@
 
 <!-- MENU INFERIOR DE APP MOVIL 📱-- medium  -->
 <ion-tabs *ngIf="!isLargeScreen">
-  <ion-tab-bar slot="bottom" color="none" class="barra_web2" >
+  <ion-tab-bar slot="bottom" color="none" class="barra_web2">
     <!-- Iteración de las páginas según el estado de autenticación -->
-    <ng-container *ngFor="let p of pages" >
-      <ion-tab-button *ngIf="p.authRequired === isLoggedIn || !p.authRequired" [routerLink]="p.url"
-        routerDirection="root">
-        <ion-icon  [name]="p.icon"></ion-icon>
-        <ion-label>{{ p.title }}</ion-label>
-      </ion-tab-button>
-    </ng-container>
+    <ion-tab-button [routerLink]="'./home'">
+      <ion-icon name="home"></ion-icon>
+      Home
+    </ion-tab-button>
+    <ion-tab-button *ngIf="isLoggedIn">
+      <ion-icon name="heart-sharp"></ion-icon>
+      Mis megustan
+    </ion-tab-button>
+    <ion-tab-button *ngIf="isLoggedIn">
+      <ion-icon name="cart-sharp"></ion-icon>
+      Carrito
+    </ion-tab-button>
+    <ion-tab-button *ngIf="isLoggedIn && currentUser" (click)="openMenu()">
+      <ion-icon name="settings"></ion-icon>
+      {{ currentUser.nombre }}
+    </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
 
 <!-- MENÚ SUPERIOR QUE ABRE MENÚ LATERAL 📱 -->
 <ion-header *ngIf="!isLargeScreen">
-  <ion-toolbar class="barra_web1"  color="nome">
-    <ion-title>
+  <ion-toolbar class="barra_web1" color="nome">
+    <!-- <ion-title>
       <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav">
-    </ion-title>
+    </ion-title> -->
     <!-- ---  -->
     <ion-buttons class="menu-button" slot="end">
-      <ion-button shape="round" *ngIf="isLoggedIn">
-        <ion-icon name="heart-sharp"></ion-icon>
-      </ion-button>
-      <ion-button shape="round" *ngIf="isLoggedIn">
-        <ion-icon name="cart-sharp"></ion-icon>
-      </ion-button>
-      <ion-button shape="round" *ngIf="!isLoggedIn" [routerLink]="'./login'">
+      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav_movil" loading="lazy">
+      <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
+      <ion-button shape="round" class="btn_decorate_all" *ngIf="!isLoggedIn" [routerLink]="'./login'">
         <ion-icon name="log-in-outline" slot="start"></ion-icon>
         Iniciar sesión
       </ion-button>
       <!-- Botón que abre el menú lateral -->
-      <ion-button shape="round" *ngIf="isLoggedIn" (click)="openMenu()">
-        <ion-icon name="settings-sharp"></ion-icon>
-      </ion-button>
+      <!-- <ion-button class="btn_decorate_all" (click)="openMenu()">
+        <span style="padding: 5px;" *ngIf="isLoggedIn && currentUser">
+          {{ currentUser.nombre }}
+        </span>
+        <ion-icon name="list-outline"></ion-icon>
+      </ion-button> -->
     </ion-buttons>
     <!-- ---  -->
   </ion-toolbar>
@@ -115,17 +122,25 @@
   </ion-header>
   <ion-content class="content_menu">
     <ion-list class="list_menu">
-      <ion-item class="menu-item">
-        <ion-icon name="settings-sharp" class="menu-icon"></ion-icon>
-        Configuraciones
-      </ion-item>
-      <ion-item class="menu-item">
-        <ion-icon name="help-outline" class="menu-icon"></ion-icon>
-        Ayuda
-      </ion-item>
-      <ion-item class="menu-item" (click)="logout()">
+      <span *ngFor="let p of pagesAll">
+        <ion-item *ngIf="(p.authRequired === isLoggedIn || !p.authRequired)" [routerLink]="p.url" routerDirection="root"
+          style="cursor: pointer;" class="menu-item">
+          <ion-icon [name]="p.icon" class="menu-icon"></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </span>
+      <span *ngFor="let p of pagesWeb">
+        <ion-item *ngIf="(p.authRequired === isLoggedIn || !p.authRequired) && !isLargeScreen && p.title !== 'Home'"
+          [routerLink]="p.url" routerDirection="root" style="cursor: pointer;" class="menu-item">
+          <ion-icon [name]="p.icon" class="menu-icon"></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </span>
+      <ion-item *ngIf="isLoggedIn" style="cursor: pointer;" class="menu-item" (click)="logout()">
         Cerrar sesión
       </ion-item>
     </ion-list>
+    <!-- <ion-list> -->
+    <!-- </ion-list> -->
   </ion-content>
 </ion-menu>

@@ -1,31 +1,76 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service'; // Ajusta la ruta según la ubicación de tu servicio
+import { Component, OnInit } from '@angular/core';
+import { ProductsService } from '../../services/products.service';
 import { AlertController, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage  {
+export class HomePage implements OnInit {
+  productos: any[] = [];
   isModalOpen = false;
   public isLargeScreen: boolean;
+
   constructor(
-    private authService: AuthService,
-    private platform: Platform
+    private ProductsService: ProductsService,
+    private alertController: AlertController,
+    private router: Router,
+    private platform: Platform,
   ) {
-    
     this.isLargeScreen = this.platform.width() >= 768;
+
     this.platform.resize.subscribe(() => {
       this.checkScreenSize();
     });
-  } // Inyección del servicio
+  }
 
-  // ngOnInit() {
-    
-  // }
+  ngOnInit() {
+    this.ProductsService.getProductos().subscribe(
+      (response) => {
+        this.productos = response.productos;
+        console.log(response.productos)
+      },
+      (error) => {
+        this.showAlert('Error al obtener los productos.', 'Error');
+      }
+    );
+  }
 
-  productos = [
+  // Método para navegar al detalle del producto
+  verDetalleProducto(productId: number) {
+    this.router.navigate(['_/product-detalle', productId]);
+  }
+
+  async showAlert(message: string, tex: string) {
+    const alert = await this.alertController.create({
+      header: tex,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  refreshProductos() {
+    this.ProductsService.getProductos().subscribe(
+      (response) => {
+        this.productos = response.productos;
+      },
+      (error) => {
+        this.showAlert('Error al obtener los productos.', 'Error');
+      }
+    );
+  }
+
+  checkScreenSize() {
+    this.isLargeScreen = this.platform.width() >= 768;
+  }
+}
+
+/**
+  productosXD = [*
     {
       nombre: 'Lápiz Escolar HB',
       precio: 12.00,
@@ -174,18 +219,5 @@ export class HomePage  {
       imagen: 'assets/img_all/calculadora.jpg',
     },
   ];
-  
 
-  checkScreenSize() {
-    this.isLargeScreen = this.platform.width() >= 768;
-  }
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  // Método para alternar la visibilidad del menú
-  toggleMenu() {
-    this.authService.toggleMenu(); // Llama al método del servicio
-  }
-}
+ */

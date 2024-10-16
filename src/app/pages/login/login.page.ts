@@ -22,16 +22,11 @@ export class LoginPage implements OnInit {
     private alertController: AlertController, // Controlador para mostrar alertas o modales
     private AuthService: AuthService
   ) {
-    // Inicializa el formulario con los campos de username y password, y aplica validaciones
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required], // Campo de usuario, obligatorio
       password: ['', Validators.required], // Campo de contraseña, obligatorio
     });
 
-    // Si el usuario ya está autenticado (hay datos en localStorage), redirige al home
-    // if (this.authService.currentUserValue) {
-    //   this.router.navigate(['/_/home']);
-    // }
   }
 
   // Método del ciclo de vida de Angular que se ejecuta al inicializar el componente
@@ -109,8 +104,4 @@ export class LoginPage implements OnInit {
     await alert.present(); // Muestra la alerta
   }
   
-  // ☢️ Método para alternar la visibilidad del menú
-  toggleMenu() {
-    this.AuthService.toggleMenu(); // Llama al método del servicio
-  }
 }

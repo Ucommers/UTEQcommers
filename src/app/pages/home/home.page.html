@@ -1,13 +1,81 @@
 <ion-header class="header_home">
   <ion-toolbar class="custom-toolbar barra_web1" color="nome">
-    <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
-    <ion-buttons class="menu-button" slot="end">
-      <!-- ocultar_movil mostrar_web -->
-      <!-- <ion-button id="open-categories" class="" shape="round">
-        Categorías
-        <ion-icon name="caret-down-outline"></ion-icon>
-      </ion-button> -->
-      <ion-button class="text_categorias" color="light" style="font-weight: bold;" id="click-trigger">
+    <ion-buttons class="menu-button" slot="start">
+      <!-- ------  -->
+      <ion-button class="btn_decorate_all" (click)="refreshProductos()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button class="btn_decorate_all size_text">
+        Todo
+        <img src="assets/images/all.png" alt="Logo" class="img_icon ms-1" loading="lazy">
+      </ion-button>
+      <ion-button class="btn_decorate_all size_text">
+        Comida
+        <img src="assets/images/comida.png" alt="Logo" class="img_icon ms-1" loading="lazy">
+      </ion-button>
+      <ion-button class="btn_decorate_all size_text">
+        Papeleria
+        <img src="assets/images/papeleria.png" alt="Logo" class="img_icon ms-1" loading="lazy">
+      </ion-button>
+      <ion-button class="btn_decorate_all size_text">
+        Tecnología
+        <img src="assets/images/tecnologia.png" alt="Logo" class="img_icon ms-1" loading="lazy">
+      </ion-button>
+      <!-- ------  -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- DEGREDADO  -->
+  <div class="ofertas_contenido">
+    <br>
+    <p class="text_inicio">Te presentamos una selección de productos que no te puedes perder. ¡Descubre lo que tenemos
+      para ti!</p>
+  </div>
+  <!-- --- --- https://cervaya.pro/ApiUcommers/storage/app/public/productos/ -->
+  <div class="pocicion_cartas">
+    <ion-grid class="filas_cartas" *ngIf="isLargeScreen">
+      <ion-row>
+        <ion-col class="columna_producto" *ngFor="let producto of productos">
+          <ion-card class="tarjeta_producto animacion_carta" (click)="verDetalleProducto(producto.id)">
+            <img
+              [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
+              alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
+            <ion-card-header>
+              <ion-card-title class="titulo_producto">{{ producto.nombre }}</ion-card-title>
+              <ion-card-subtitle class="precio_producto">${{ producto.precio }} <span class="descuento">{{
+                  producto.stock
+                  }} exist</span></ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="contenido_producto">
+              <p>{{ producto.descripcion.length > 15 ? (producto.descripcion | slice:0:15) + '...' :
+                producto.descripcion }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <ion-list class="lista_productos" *ngIf="!isLargeScreen">
+    <ion-item class="item_completo" *ngFor="let producto of productos" (click)="verDetalleProducto(producto.id)">
+      <ion-thumbnail slot="start">
+        <img
+          [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
+          alt="Imagen de {{ producto.nombre }}" class="imagen_producto_list" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2 class="titulo_producto_list">{{ producto.nombre }}</h2>
+        <p class="precio_producto_list">${{ producto.precio }} <span class="descuento_list">{{ producto.stock }}
+            exist</span></p>
+        <p>{{ producto.descripcion}}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- <ion-button class="text_categorias" id="click-trigger">
         Categorías
         <ion-icon name="chevron-down-outline"></ion-icon>
       </ion-button>
@@ -24,48 +92,4 @@
             Paeleria
           </ion-button>
         </ng-template>
-      </ion-popover>
-
-      <!-- <ion-button class="ocultar_web mostrar_movil" id="open-action-sheet">Categorias</ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions" [buttons]="actionSheetButtons"></ion-action-sheet> -->
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="contenido_catalogo">
-  <!-- aqui quieor un contenido antes de catalogo como para mostrar oretas con fondo background  -->
-  <div class="ofertas_contenido">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12" class="ofertas_texto">
-          <p class="titulo_v1" >Ofertas</p>
-          <p>Obtén hasta un 10% de descuento aplicando el cupón <strong>FULL·SÚPER</strong></p>
-        </ion-col>
-        <ion-col>
-          <img src="assets/img_all/publicidad.png" class="img_pubicidad" alt="publicidad atrevida">
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <!-- --- ---  -->
-  <ion-grid class="mt-3">
-    <ion-row class="fila_productos">
-      <ion-col class="columna_producto" *ngFor="let producto of productos">
-        <ion-card class="tarjeta_producto">
-          <img [src]="producto.imagen" alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
-          <ion-card-header>
-            <ion-card-title class="titulo_producto">{{ producto.nombre }}</ion-card-title>
-            <ion-card-subtitle class="precio_producto">${{ producto.precio }} <span class="descuento">{{
-                producto.descuento }} exist</span></ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content class="contenido_producto">
-            <p>{{ producto.descripcion }}</p>
-          </ion-card-content>
-          <ion-button class="button_carrito" color="primary"  fill="outline">
-            agregar al carrito <ion-icon name="cart-outline"></ion-icon>
-          </ion-button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+      </ion-popover> -->

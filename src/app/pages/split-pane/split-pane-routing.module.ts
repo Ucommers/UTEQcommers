@@ -13,9 +13,9 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'prueba',
+        path: 'productos',
         canActivate: [AuthGuard],
-        loadChildren: () => import('../prueba/prueba.module').then( m => m.PruebaPageModule)
+        loadChildren: () => import('../productos/productos.module').then( m => m.ProductosPageModule)
       },
       {
         path: 'login',
@@ -28,6 +28,15 @@ const routes: Routes = [
       {
         path: 'trabajos',
         loadChildren: () => import('../trabajos/trabajos.module').then( m => m.TrabajosPageModule)
+      },
+      {
+        path: 'mis-datos',
+        loadChildren: () => import('../mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
+      },
+      {
+        path: 'product-detalle/:id',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
       },
     ]
   }

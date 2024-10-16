@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+        Regresar
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ producto?.nombre }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="producto">
+    <ion-grid>
+      <ion-row>
+        <!-- Primera parte: Imagen -->
+        <ion-col>
+          <div class="espacio_img">
+            <img
+              [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
+              alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
+          </div>
+        </ion-col>
+
+        <!-- Segunda parte: Nombre, Precio, Descripción -->
+        <ion-col>
+          <h1 class="nombre_producto">{{ producto.nombre }}</h1>
+          <h3 class="precio_producto">${{ producto.precio }}</h3>
+          <h5 class="descri_producto">{{ producto.descripcion }}</h5>
+        </ion-col>
+
+        <!-- Tercera parte: Botones -->
+        <ion-col class="botones_producto">
+          <ion-button color="primary" expand="block">Comprar</ion-button>
+          <ion-button color="secondary" expand="block">Agregar al carrito</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+</ion-content>

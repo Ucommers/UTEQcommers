@@ -1,0 +1,15 @@
+<ion-content class="ion-padding">
+  <!-- Contenido -->
+  <!-- <ion-content class="content-padding"> -->
+    <h2 class="text-success">Mis datos - 🙂💫</h2>
+
+    <div *ngIf="currentUser">
+      <h2>Bienvenido, {{ currentUser.nombre }}!</h2>
+      <h2>Email: {{ currentUser.email }}</h2>
+      <h2>Apellido Paterno: {{ currentUser.apellido_paterno }}</h2>
+      <h2>Apellido Materno: {{ currentUser.apellido_materno }}</h2>
+      <h2>Rol: <span class="text-danger">{{ currentUser.tipo }}</span></h2>
+    </div>
+
+  <!-- </ion-content> -->
+</ion-content>

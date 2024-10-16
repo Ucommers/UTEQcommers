@@ -6,16 +6,13 @@
     ion-content {
         --padding-top: 4rem !important;
     }
-
 }
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
-
     ion-content {
         --padding-top: 4rem !important;
     }
-
 }
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */

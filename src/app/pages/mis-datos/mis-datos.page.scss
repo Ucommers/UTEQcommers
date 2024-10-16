@@ -1,23 +1,9 @@
-.css_img {
-    width: 3px;
-    height: auto;
-}
-
-
-
-// ----------------- 
-// ----------------- 
-
 /* Para pantallas de móviles (hasta 480px) */
 @media (max-width: 480px) {
     ion-content {
-        --padding-top: 2rem !important;
+        --padding-top: 4rem !important;
     }
 
-    .css_img {
-        width: 25px;
-        height: auto;
-    }
 }
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
@@ -27,10 +13,6 @@
         --padding-top: 4rem !important;
     }
 
-    .css_img {
-        width: 25px;
-        height: auto;
-    }
 }
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */

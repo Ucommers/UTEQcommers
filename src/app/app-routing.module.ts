@@ -28,10 +28,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'prueba',
+    path: 'productos',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('./pages/prueba/prueba.module').then((m) => m.PruebaPageModule),
+      import('./pages/productos/productos.module').then((m) => m.ProductosPageModule),
   },
   {
     path: 'home',
@@ -45,6 +45,15 @@ const routes: Routes = [
   {
     path: 'trabajos',
     loadChildren: () => import('./pages/trabajos/trabajos.module').then( m => m.TrabajosPageModule)
+  },
+  {
+    path: 'mis-datos',
+    loadChildren: () => import('./pages/mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
+  },
+  {
+    path: 'product-detalle/:id',
+    canActivate: [AuthGuard], //La funcion que verificacion 
+    loadChildren: () => import('./pages/product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
   },
 ];
 

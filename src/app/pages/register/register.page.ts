@@ -18,13 +18,14 @@ import {
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
   loading!: HTMLIonLoadingElement; // Variable para manejar el componente de carga (loading)
+  public isLoggedIn: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private loadingController: LoadingController, 
-    private authService: AuthService, // Corregido el nombre a camelCase
-    private alertController: AlertController, // Agregamos el AlertController para manejar alertas
-    private router: Router, // Para navegar entre páginas de la aplicación
+    private authService: AuthService, 
+    private alertController: AlertController, 
+    private router: Router, 
   ) {}
 
   ngOnInit() {
@@ -41,9 +42,13 @@ export class RegisterPage implements OnInit {
         confirm_password: ['', Validators.required],
       },
       {
-        validator: this.passwordMatchValidator, // Para asegurarte que las contraseñas coinciden
+        validator: this.passwordMatchValidator, 
       }
     );
+    
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn; 
+    });
   }
 
   // Validador personalizado para el email
@@ -68,9 +73,8 @@ export class RegisterPage implements OnInit {
   // ☢️ Método para manejar el envío del formulario de registro
   async onSubmit() {
     if (this.registerForm.invalid) {
-      return; // Si el formulario es inválido, no hace nada
+      return; 
     }
-  
     // Muestra un loading mientras se procesa el registro
     await this.presentLoading();
   
@@ -85,7 +89,7 @@ export class RegisterPage implements OnInit {
         error: async (error) => {
           console.error('Error en el registro', error);
           await this.dismissLoading();
-          await this.presentErrorAlert(error.error.message);  // Mostrar alerta de error en caso de fallo
+          await this.presentErrorAlert(error.error.message);  
         }
       });
   }
@@ -93,11 +97,11 @@ export class RegisterPage implements OnInit {
   // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción  
   async presentLoading() {
     this.loading = await this.loadingController.create({
-      spinner: 'crescent', // Puedes elegir otro tipo de spinner
-      message: 'Registrando...', // Mensaje opcional
-      cssClass: 'my-custom-loading-3', // Clase CSS personalizada
+      spinner: 'crescent', 
+      message: 'Registrando...', 
+      cssClass: 'my-custom-loading-3', 
     });
-    await this.loading.present(); // Muestra el loading
+    await this.loading.present();
   }
 
   // ☢️ Oculta el loading cuando termina la acción
@@ -106,7 +110,6 @@ export class RegisterPage implements OnInit {
       await this.loading.dismiss();
     }
   }
-
 
   // ☢️ Muestra una alerta de error en caso de que el registro falle
   async presentErrorAlert(message: string) {
