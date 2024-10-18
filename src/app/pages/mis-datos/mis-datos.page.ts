@@ -14,8 +14,7 @@ export class MisDatosPage implements OnInit {
   ngOnInit() {
     // Obtener el usuario actual 
     this.currentUser = this.AuthService.currentUserValue;
-    // Mostrar los datos del usuario en la consola
-    console.log('Datos del usuario:', this.currentUser);
+    // console.log('Datos del usuario:', this.currentUser);
   }
 }
 

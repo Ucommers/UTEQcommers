@@ -1,0 +1,68 @@
+<ion-content>
+  <ion-title  *ngIf="mensaje">
+    <span class="text-danger">{{ mensaje }}</span>
+    <br>
+    <ion-button  class="ms-3" (click)="refreshPage()">
+      Reload
+    </ion-button>
+  </ion-title>
+  <ion-grid *ngFor="let vendedor of productos | keyvalue" class="carstas_x_vendedor">
+    <ion-row>
+
+      <span class="card_productos_carrito">
+        <ion-card *ngFor="let producto of vendedor.value.productos">
+          <ion-grid>
+            <ion-row>
+
+              <ion-col>
+                <div class="espacio_img">
+                  <img [src]="'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen"
+                    alt="imagen del producto" class="imagen_producto" />
+                </div>
+              </ion-col>
+
+              <ion-col class="descripcion_products">
+                <p>
+                  {{ producto.nombre }}
+                  <br>
+                  <strong style="font-size: 15px;" class="text-success">${{ producto.precio }}</strong>
+                  <span class="ms-2 text-dark">{{producto.stock}} Exist</span>
+                  <br>
+                  {{ producto.descripcion }}
+                </p>
+                <ion-buttons class="menu-button">
+                  <ion-button class="btn_decorate_all size_text" color="danger"
+                    (click)="confirmarEliminarCarrito(producto.id)">
+                    Eliminar
+                  </ion-button>
+                  <ion-button class="btn_decorate_all size_text" color="primary">
+                    Comprar ahora
+                  </ion-button>
+                </ion-buttons>
+              </ion-col>
+
+              <ion-col class="seccion_cantidad">
+                <ion-item>
+                  <ion-select placeholder="Selecciona" interface="popover" value="1">
+                    <ion-select-option *ngFor="let i of [producto.stock]" [value]="i">{{ i }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </span>
+
+
+      <ion-card class="total_pagar_x_vendedor">
+        <h5>Resumen de compra</h5>
+        <h6>{{ vendedor.value.NombreVendedor }}</h6>
+        <hr>
+      </ion-card>
+
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

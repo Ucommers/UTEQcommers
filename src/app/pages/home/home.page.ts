@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   productos: any[] = [];
+  categorias: any[] = [];
   isModalOpen = false;
   public isLargeScreen: boolean;
 
@@ -17,9 +18,9 @@ export class HomePage implements OnInit {
     private ProductsService: ProductsService,
     private alertController: AlertController,
     private router: Router,
-    private platform: Platform,
+    private platform: Platform
   ) {
-    this.isLargeScreen = this.platform.width() >= 768;
+    this.isLargeScreen = this.platform.width() >= 765;
 
     this.platform.resize.subscribe(() => {
       this.checkScreenSize();
@@ -27,22 +28,50 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    // Trae todos los productos
     this.ProductsService.getProductos().subscribe(
       (response) => {
         this.productos = response.productos;
-        console.log(response.productos)
       },
       (error) => {
-        this.showAlert('Error al obtener los productos.', 'Error');
+        this.showAlert('Ups! Error al obtener los productos.', 'Error ❌');
+      }
+    );
+
+    // Trae las categorias de la bd
+    this.ProductsService.getCategorias().subscribe(
+      (response) => {
+        this.categorias = response.categorias;
+        // console.log(this.categorias);
+      },
+      (error) => {
+        this.showAlert('Ups! Error al obtener las categorias.', 'Error ❌');
       }
     );
   }
 
-  // Método para navegar al detalle del producto
+  // ☢️ detalle del producto
   verDetalleProducto(productId: number) {
-    this.router.navigate(['_/product-detalle', productId]);
+    this.router.navigate(['star/product-detalle', productId]);
   }
 
+  // ☢️ detalle del producto
+  filtroProductos(categoriaId: number) {
+    // console.log(categoriaId)
+    this.ProductsService.filtrarProductos(categoriaId).subscribe(
+      (response: any) => {
+        this.productos = response.productos;
+        // console.log(this.productos)
+      },
+      (error: any) => {
+        const errorMessage = error.error.msj ;
+        this.showAlert(errorMessage, 'Error ❌');
+      }
+    );
+  }
+
+
+  // ☢️
   async showAlert(message: string, tex: string) {
     const alert = await this.alertController.create({
       header: tex,
@@ -65,7 +94,7 @@ export class HomePage implements OnInit {
   }
 
   checkScreenSize() {
-    this.isLargeScreen = this.platform.width() >= 768;
+    this.isLargeScreen = this.platform.width() >= 765;
   }
 }
 

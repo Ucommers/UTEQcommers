@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, Platform, MenuController  } from '@ionic/angular';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-split-pane',
@@ -67,7 +68,7 @@ export class SplitPanePage implements OnInit {
   ];
   
 
-
+  productos: any[] = [];
   selectedPath = '';
   public isLargeScreen: boolean;
   public isLoggedIn: boolean = false;
@@ -78,7 +79,8 @@ export class SplitPanePage implements OnInit {
     private authService: AuthService,
     private alertController: AlertController,
     private platform: Platform,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private ProductsService: ProductsService,
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -86,7 +88,7 @@ export class SplitPanePage implements OnInit {
       }
     });
 
-    this.isLargeScreen = this.platform.width() >= 768;
+    this.isLargeScreen = this.platform.width() >= 765;
 
     this.platform.resize.subscribe(() => {
       this.checkScreenSize();
@@ -116,7 +118,7 @@ export class SplitPanePage implements OnInit {
   }
 
   checkScreenSize() {
-    this.isLargeScreen = this.platform.width() >= 768;
+    this.isLargeScreen = this.platform.width() >= 765;
   }
 
   async logout() {
@@ -134,7 +136,7 @@ export class SplitPanePage implements OnInit {
           text: 'Cerrar Sesión',
           handler: () => {
             this.authService.logout();
-            this.router.navigate(['_/home'], { replaceUrl: true }); 
+            this.router.navigate(['star/home'], { replaceUrl: true }); 
           },
         },
       ],
@@ -142,6 +144,28 @@ export class SplitPanePage implements OnInit {
 
     await alert.present();
   }
+
+  refreshProductos() {
+    this.ProductsService.getProductos().subscribe(
+      (response) => {
+        this.productos = response.productos;
+      },
+      (error) => {
+        this.showAlert('Error al obtener los productos.', 'Error');
+      }
+    );
+  }
+  
+  async showAlert(message: string, tex: string) {
+    const alert = await this.alertController.create({
+      header: tex,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
 }
 /*
 

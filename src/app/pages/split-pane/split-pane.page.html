@@ -20,7 +20,7 @@
       <ion-button class="btn_decorate_all" *ngIf="isLoggedIn" shape="round">
         <ion-icon name="heart-sharp"></ion-icon>
       </ion-button>
-      <ion-button class="btn_decorate_all" *ngIf="isLoggedIn" shape="round">
+      <ion-button class="btn_decorate_all" [routerLink]="'./carrito'" *ngIf="isLoggedIn" shape="round">
         <ion-icon name="cart-sharp"></ion-icon>
       </ion-button>
       <!-- Botón que abre el menú lateral -->
@@ -39,7 +39,7 @@
 <!-- BODY  -->
 <ion-content>
   <!-- ---  -->
-  <ion-fab slot="fixed" *ngIf="isLargeScreen" class="custom-fab">
+  <!-- <ion-fab slot="fixed" *ngIf="isLargeScreen" class="custom-fab">
     <ion-fab-button color="primary">
       <ion-icon name="chevron-up-circle"></ion-icon>
     </ion-fab-button>
@@ -54,7 +54,7 @@
         <ion-icon name="globe"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>
+  </ion-fab> -->
   <!-- ---  -->
   <ion-router-outlet id="content"></ion-router-outlet>
 </ion-content>
@@ -67,11 +67,15 @@
       <ion-icon name="home"></ion-icon>
       Home
     </ion-tab-button>
-    <ion-tab-button *ngIf="isLoggedIn">
-      <ion-icon name="heart-sharp"></ion-icon>
-      Mis megustan
+    <ion-tab-button *ngIf="!isLoggedIn" [routerLink]="'./login'">
+      <ion-icon name="log-in-outline" ></ion-icon>
+      Iniciar sesión
     </ion-tab-button>
     <ion-tab-button *ngIf="isLoggedIn">
+      <ion-icon name="heart-sharp"></ion-icon>
+      Megustan
+    </ion-tab-button>
+    <ion-tab-button *ngIf="isLoggedIn" [routerLink]="'./carrito'">
       <ion-icon name="cart-sharp"></ion-icon>
       Carrito
     </ion-tab-button>
@@ -92,10 +96,13 @@
     <ion-buttons class="menu-button" slot="end">
       <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav_movil" loading="lazy">
       <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
-      <ion-button shape="round" class="btn_decorate_all" *ngIf="!isLoggedIn" [routerLink]="'./login'">
+      <!-- <ion-button class="btn_decorate_all" (click)="refreshProductos()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button> -->
+      <!-- <ion-button shape="round" class="btn_decorate_all" *ngIf="!isLoggedIn" [routerLink]="'./login'">
         <ion-icon name="log-in-outline" slot="start"></ion-icon>
         Iniciar sesión
-      </ion-button>
+      </ion-button> -->
       <!-- Botón que abre el menú lateral -->
       <!-- <ion-button class="btn_decorate_all" (click)="openMenu()">
         <span style="padding: 5px;" *ngIf="isLoggedIn && currentUser">

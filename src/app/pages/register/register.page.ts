@@ -84,7 +84,7 @@ export class RegisterPage implements OnInit {
         next: async (response) => {
           await this.dismissLoading();
           console.log('Usuario registrado con éxito', response);
-          this.router.navigate(['_/login']); 
+          this.router.navigate(['star/login']); 
         },
         error: async (error) => {
           console.error('Error en el registro', error);

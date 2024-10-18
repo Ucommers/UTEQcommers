@@ -85,6 +85,11 @@
   font-size: 18px;
 }
 
+.logo_img_nav_movil {
+  margin-left: 5px;
+  width: 1%;
+  height: auto;
+}
 
 // ----------------- 
 
@@ -128,7 +133,7 @@
 }
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 767px) {
   .search-bar {
     width: auto;
     height: auto;
@@ -163,10 +168,10 @@
 // --- WEB 💻 ---
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
 
   .logo_img_nav {
-    margin-left: 0rem;
+    margin-left: 1rem;
     width: 10%;
     height: auto;
   }

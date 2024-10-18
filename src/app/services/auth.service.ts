@@ -14,7 +14,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  // BehaviorSubject almacena el último valor emitido y lo ofrece a los nuevos suscriptores inmediatamente.
+  // BehaviorSubject almacena el último valor emitido y lo ofrece a los nuevos logeados inmediatamente.
 
   private isLoggedInSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -89,17 +89,6 @@ export class AuthService {
   // ☢️ Método varificar si estoy autenticado
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
-  }
-
-  // --- --- --- 
-
-  // ☢️ Método Trae todos los productos
-  getProductos(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/All-Productos`).pipe(
-      tap((response) => {
-        console.log('Productos recibidos:', response);
-      })
-    );
   }
 
 }

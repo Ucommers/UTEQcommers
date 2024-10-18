@@ -1,15 +1,25 @@
 <ion-content class="ion-padding">
-  <!-- Contenido -->
-  <!-- <ion-content class="content-padding"> -->
-    <h2 class="text-success">Mis datos - 🙂💫</h2>
+  <ion-card *ngIf="currentUser">
+    <ion-grid>
+      <ion-row>
+        <ion-col >
+          <div class="espacio_img">
+            <img src="assets/images/sin_perfil.jpg" alt="Logo" class="imagen_producto" loading="lazy">
+          </div>
+        </ion-col>
 
-    <div *ngIf="currentUser">
-      <h2>Bienvenido, {{ currentUser.nombre }}!</h2>
-      <h2>Email: {{ currentUser.email }}</h2>
-      <h2>Apellido Paterno: {{ currentUser.apellido_paterno }}</h2>
-      <h2>Apellido Materno: {{ currentUser.apellido_materno }}</h2>
-      <h2>Rol: <span class="text-danger">{{ currentUser.tipo }}</span></h2>
-    </div>
-
+        <ion-col>
+          <ion-button color="primary" shape="round">
+            Editar
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+          <hr>
+          <h2>{{ currentUser.nombre }} {{ currentUser.apellido_paterno }} {{ currentUser.apellido_materno }}</h2>
+          <h2>{{ currentUser.email }}</h2>
+          <h2>Rol: <span class="text-danger">{{ currentUser.tipo }}</span></h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
   <!-- </ion-content> -->
 </ion-content>

@@ -1,11 +1,20 @@
 <ion-header class="header_home">
   <ion-toolbar class="custom-toolbar barra_web1" color="nome">
+
     <ion-buttons class="menu-button" slot="start">
-      <!-- ------  -->
-      <ion-button class="btn_decorate_all" (click)="refreshProductos()">
-        <ion-icon name="refresh-outline"></ion-icon>
+      <ion-button class="btn_decorate_all size_text" (click)="refreshProductos()">
+        Todo
+        <img src="assets/images/all.png" alt="Logo" class="img_icon ms-1" loading="lazy">
       </ion-button>
-      <ion-button class="btn_decorate_all size_text">
+
+      <ion-button *ngFor="let categoria of categorias" class="btn_decorate_all size_text" (click)="filtroProductos(categoria.id)">
+        {{ categoria.nombre }} 
+        <!-- <img [src]="categoria.img" alt="Logo" class="img_icon ms-1" loading="lazy"> -->
+      </ion-button>
+    </ion-buttons>
+
+    <!-- <ion-buttons class="menu-button" slot="start">
+      <ion-button class="btn_decorate_all size_text" (click)="refreshProductos()">
         Todo
         <img src="assets/images/all.png" alt="Logo" class="img_icon ms-1" loading="lazy">
       </ion-button>
@@ -21,24 +30,25 @@
         Tecnología
         <img src="assets/images/tecnologia.png" alt="Logo" class="img_icon ms-1" loading="lazy">
       </ion-button>
-      <!-- ------  -->
-    </ion-buttons>
+    </ion-buttons> -->
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- DEGREDADO  -->
   <div class="ofertas_contenido">
     <br>
     <p class="text_inicio">Te presentamos una selección de productos que no te puedes perder. ¡Descubre lo que tenemos
       para ti!</p>
   </div>
-  <!-- --- --- https://cervaya.pro/ApiUcommers/storage/app/public/productos/ -->
   <div class="pocicion_cartas">
     <ion-grid class="filas_cartas" *ngIf="isLargeScreen">
       <ion-row>
         <ion-col class="columna_producto" *ngFor="let producto of productos">
           <ion-card class="tarjeta_producto animacion_carta" (click)="verDetalleProducto(producto.id)">
+            <!-- <ion-card class="nombre_vendedor">
+              <p>{{ producto.user.nombre }}</p>
+            </ion-card> -->
             <img
               [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
               alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
@@ -74,22 +84,3 @@
     </ion-item>
   </ion-list>
 </ion-content>
-
-<!-- <ion-button class="text_categorias" id="click-trigger">
-        Categorías
-        <ion-icon name="chevron-down-outline"></ion-icon>
-      </ion-button>
-      <ion-popover trigger="click-trigger" triggerAction="click">
-        <ng-template>
-          <ion-button fill="clear">
-            Comida y bebidas
-            <ion-icon name="fast-food-outline"></ion-icon>
-          </ion-button>
-          <ion-button fill="clear">
-            Dulces
-          </ion-button>
-          <ion-button fill="clear">
-            Paeleria
-          </ion-button>
-        </ng-template>
-      </ion-popover> -->

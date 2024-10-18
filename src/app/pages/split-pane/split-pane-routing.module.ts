@@ -31,12 +31,18 @@ const routes: Routes = [
       },
       {
         path: 'mis-datos',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
       },
       {
         path: 'product-detalle/:id',
         canActivate: [AuthGuard],
         loadChildren: () => import('../product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
+      },
+      {
+        path: 'carrito',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../carrito/carrito.module').then( m => m.CarritoPageModule)
       },
     ]
   }

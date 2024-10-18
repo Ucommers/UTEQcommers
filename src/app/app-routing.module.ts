@@ -5,11 +5,11 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '_/home',
+    redirectTo: 'star/home',
     pathMatch: 'full',
   },
   {
-    path: '_',
+    path: 'star',
     loadChildren: () =>
       import('./pages/split-pane/split-pane.module').then(
         (m) => m.SplitPanePageModule
@@ -48,12 +48,18 @@ const routes: Routes = [
   },
   {
     path: 'mis-datos',
+    canActivate: [AuthGuard], 
     loadChildren: () => import('./pages/mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
   },
   {
     path: 'product-detalle/:id',
-    canActivate: [AuthGuard], //La funcion que verificacion 
+    canActivate: [AuthGuard], 
     loadChildren: () => import('./pages/product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
+  },
+  {
+    path: 'carrito',
+    canActivate: [AuthGuard], 
+    loadChildren: () => import('./pages/carrito/carrito.module').then( m => m.CarritoPageModule)
   },
 ];
 

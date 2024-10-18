@@ -20,12 +20,13 @@ export class ProductosPage implements OnInit {
   currentUser: any; // Almacenar los datos del usuario
   insertProductoForm!: FormGroup;
   selectedFile: File | null = null; // Variable para almacenar el archivo seleccionado
-
+  categorias: any;
   constructor(
     private AuthService: AuthService,
     private alertController: AlertController,
     private productsService: ProductsService,
-    private formBuilder: FormBuilder // Inyectar FormBuilder
+    private formBuilder: FormBuilder, // Inyectar FormBuilder
+    private ProductsService: ProductsService
   ) {}
   //☢️ funcion q se ajecuta automaticamente al ingresar a la view
   ngOnInit() {
@@ -39,31 +40,40 @@ export class ProductosPage implements OnInit {
       precio: ['', Validators.required],
       stock: ['', Validators.required],
       img: ['', Validators.required],
+      categoria: ['', Validators.required] 
     });
+
+    // Trae las categorias de la bd
+    this.ProductsService.getCategorias().subscribe(
+      (response) => {
+        this.categorias = response.categorias;
+        // console.log(this.categorias);
+      },
+      (error) => {
+        this.showAlert('Ups! Error al obtener las categorias.', 'Error ❌');
+      }
+    );
   }
 
   // ☢️
   onFileChange(event: Event) {
-    const target = event.target as HTMLInputElement; 
+    const target = event.target as HTMLInputElement;
     if (target && target.files && target.files.length > 0) {
       this.selectedFile = target.files[0]; // Guardar el archivo seleccionado
     } else {
-      this.showAlert('No se seleccionó ningún archivo', 'Error');
+      this.showAlert('No se seleccionó ningún archivo', 'Error ❌');
       this.selectedFile = null;
     }
   }
-  
-  
-  
+
   // ☢️
   async onSubmit() {
-
     if (!this.selectedFile) {
-      this.showAlert('Please select an image', 'Error');
+      this.showAlert('Please select an image', 'Error ❌');
       return;
     }
 
-    // objeto FormData 
+    // objeto FormData
     const formData = new FormData();
 
     // Añadir los datos del formulario
@@ -80,14 +90,14 @@ export class ProductosPage implements OnInit {
     // Enviar los datos a través del servicio
     this.productsService.addProduct(formData).subscribe({
       next: async (response) => {
-        this.showAlert(response.msj, 'Success');
+        this.showAlert(response.msj, 'Success ✅');
         this.insertProductoForm.reset(); // Reiniciar el formulario
         this.selectedFile = null; // Resetear el archivo seleccionado
       },
       error: async (response) => {
         let error = response.error;
         let msj = error.msj;
-        this.showAlert(msj, 'Error');
+        this.showAlert(msj, 'Error ❌');
       },
     });
   }
