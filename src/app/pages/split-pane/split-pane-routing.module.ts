@@ -45,6 +45,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../carrito/carrito.module').then( m => m.CarritoPageModule)
       },
+      {
+        path: 'recuperacion-pass',
+        loadChildren: () => import('../recuperacion-pass/recuperacion-pass.module').then( m => m.RecuperacionPassPageModule)
+      },
     ]
   }
 ];
