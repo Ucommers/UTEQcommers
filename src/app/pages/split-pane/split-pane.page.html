@@ -10,15 +10,17 @@
       <ion-button>
         <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
       </ion-button>
+      
       <ng-container *ngFor="let p of pagesWeb">
         <ion-button
           class="btn_decorate_all"
-          *ngIf="(p.authRequired === isLoggedIn || !p.authRequired) && p.tipo.includes(currentUser?.tipo)"
+          *ngIf="(!p.authRequired || (isLoggedIn && p.tipo.includes(currentUser?.tipo)))"
           [routerLink]="p.url"
           router-direction="root">
           {{ p.title }}
         </ion-button>
       </ng-container>
+      
       
       <ion-button *ngIf="!isLoggedIn" class="btn_decorate_all" [routerLink]="'./login'" router-direction="root">
         Iniciar sesión

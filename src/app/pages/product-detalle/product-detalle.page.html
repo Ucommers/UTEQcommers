@@ -37,6 +37,10 @@
         </ion-col>
         <!-- Tercera parte: Botones -->
         <ion-col class="botones_producto">
+          <ion-button color="secondary" expand="block" (click)="confirmarAgregarCarrito(producto.id)">
+            Agregar al carrito
+          </ion-button>
+          <ion-button color="primary" expand="block">Comprar</ion-button>
           <ion-card class="card_vendedor">
             <h6 class="titulo_vendedor">Vendedor</h6>
             <div class="contenedor_info">
@@ -50,10 +54,6 @@
               </div>
             </div>
           </ion-card>
-          <ion-button color="secondary" expand="block" (click)="confirmarAgregarCarrito(producto.id)">
-            Agregar al carrito
-          </ion-button>
-          <ion-button color="primary" expand="block">Comprar</ion-button>
           
         </ion-col>
 

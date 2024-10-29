@@ -60,7 +60,11 @@ const routes: Routes = [
     path: 'carrito',
     canActivate: [AuthGuard], 
     loadChildren: () => import('./pages/carrito/carrito.module').then( m => m.CarritoPageModule)
+  },  {
+    path: 'recuperacion-pass',
+    loadChildren: () => import('./pages/recuperacion-pass/recuperacion-pass.module').then( m => m.RecuperacionPassPageModule)
   },
+
 ];
 
 @NgModule({

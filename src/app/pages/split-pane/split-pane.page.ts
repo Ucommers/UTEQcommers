@@ -32,7 +32,7 @@ export class SplitPanePage implements OnInit {
       url: './trabajos',
       icon: 'code-working',
       tipo : ['comprador', 'vendedor', 'administrador'],
-      authRequired: false,
+      authRequired: true,
     },
     {
       title: 'Productos',
