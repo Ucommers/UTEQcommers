@@ -62,12 +62,14 @@ export class AuthService {
 
   // ☢️ Método para registrar usuario
   register(registerForm: any): Observable<any> {
+    
     const userData = {
       nombre: registerForm.nombre,
       apellido_paterno: registerForm.apellido_paterno,
       apellido_materno: registerForm.apellido_materno,
       email: registerForm.email,
       password: registerForm.password,
+      vendedor: registerForm.wantsToSell,
       checkMedico: true,
     };
 
@@ -83,12 +85,16 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
-    this.isLoggedInSubject.next(false); // Emitir el nuevo estado
+    this.isLoggedInSubject.next(false);
   }
 
   // ☢️ Método varificar si estoy autenticado
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
   }
-
+  
+  verificaVendedor(): boolean {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    return currentUser?.tipo === 'vendedor';
+  }
 }

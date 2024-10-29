@@ -69,8 +69,6 @@ export class HomePage implements OnInit {
       }
     );
   }
-
-
   // ☢️
   async showAlert(message: string, tex: string) {
     const alert = await this.alertController.create({
@@ -95,6 +93,10 @@ export class HomePage implements OnInit {
 
   checkScreenSize() {
     this.isLargeScreen = this.platform.width() >= 765;
+  }
+  
+  ionViewWillEnter() {
+
   }
 }
 

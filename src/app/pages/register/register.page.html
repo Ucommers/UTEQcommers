@@ -12,70 +12,99 @@
   <ion-row class="custom-row">
     <ion-col class="left-col" style="background-color: rgba(0, 255, 255, 0);">
       <div class="register-container">
+
         <form class="mt-0" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="logo-container">
             <img src="assets/images/UTEQC.png" alt="Logo" class="logo">
           </div>
-          <ion-list class="mt-4" >
-            <!-- Nombre -->
-            <ion-item>
-              <ion-note *ngIf="registerForm.controls['nombre'].invalid && registerForm.controls['nombre'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="nombre" label="Nombre" labelPlacement="floating" placeholder=""></ion-input>
-            </ion-item>
-            <!-- Apellido Paterno -->
-            <ion-item>
-              <ion-note
-                *ngIf="registerForm.controls['apellido_paterno'].invalid && registerForm.controls['apellido_paterno'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="apellido_paterno" label="Apellido Paterno" labelPlacement="floating"
-                placeholder=""></ion-input>
-            </ion-item>
-            <!-- Apellido Materno -->
-            <ion-item>
-              <ion-note
-                *ngIf="registerForm.controls['apellido_materno'].invalid && registerForm.controls['apellido_materno'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="apellido_materno" label="Apellido Materno" labelPlacement="floating"
-                placeholder=""></ion-input>
-            </ion-item>
-            <!-- Email -->
-            <ion-item>
-              <ion-note *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="email" type="email" label="Email" labelPlacement="floating"
-                placeholder="nombre@gmail.com"></ion-input>
-            </ion-item>
-            <!-- Contraseña -->
-            <ion-item>
-              <ion-note *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="password" type="password" label="Contraseña" labelPlacement="floating"
-                placeholder="--- --- --- --- ---"></ion-input>
-            </ion-item>
-            <!-- Repetir Contraseña -->
-            <ion-item>
-              <ion-note
-                *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.controls['confirm_password'].touched"
-                color="danger" style="font-size:7px;">
-                *Obligatorio
-              </ion-note>
-              <ion-input formControlName="confirm_password" type="password" label="Repetir Contraseña"
-                labelPlacement="floating" placeholder="--- --- --- --- ---"></ion-input>
-            </ion-item>
+          <ion-list class="mt-4">
+            <!-- Paso 1: Datos Personales -->
+            <ng-container *ngIf="currentStep === 1">
+              <ion-item>
+                <ion-input formControlName="nombre" label="Nombre" labelPlacement="floating" placeholder=""></ion-input>
+                <ion-note *ngIf="registerForm.controls['nombre'].invalid && registerForm.controls['nombre'].touched"
+                  color="danger" style="font-size:7px;">*Obligatorio</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-input formControlName="apellido_paterno" label="Apellido Paterno" labelPlacement="floating"
+                  placeholder=""></ion-input>
+                <ion-note
+                  *ngIf="registerForm.controls['apellido_paterno'].invalid && registerForm.controls['apellido_paterno'].touched"
+                  color="danger" style="font-size:7px;">*Obligatorio</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-input formControlName="apellido_materno" label="Apellido Materno" labelPlacement="floating"
+                  placeholder=""></ion-input>
+                <ion-note
+                  *ngIf="registerForm.controls['apellido_materno'].invalid && registerForm.controls['apellido_materno'].touched"
+                  color="danger" style="font-size:7px;">*Obligatorio</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-input formControlName="email" type="email" label="Email" labelPlacement="floating"
+                  placeholder="user@uteq.edu.mx"></ion-input>
+                <ion-note *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched"
+                  color="danger" style="font-size:9px;">*Correo Institucional</ion-note>
+              </ion-item>
+              <ion-button expand="full" type="button"
+                [disabled]="registerForm.controls['nombre'].invalid || registerForm.controls['apellido_paterno'].invalid || registerForm.controls['apellido_materno'].invalid || registerForm.controls['email'].invalid"
+                (click)="nextStep()">
+                Siguiente
+              </ion-button>
+            </ng-container>
+
+            <!-- Paso 2: Pregunta de Vender -->
+            <ng-container *ngIf="currentStep === 2">
+              <ion-label>¿Quieres vender?</ion-label>
+              <ion-item>
+                <ion-segment style="font-size: 12px;" formControlName="wantsToSell">
+                  <ion-segment-button value="yes">Sí</ion-segment-button>
+                  <ion-segment-button value="no">No</ion-segment-button>
+                </ion-segment>
+                <ion-note
+                  *ngIf="registerForm.controls['wantsToSell'].invalid && registerForm.controls['wantsToSell'].touched"
+                  color="danger" style="font-size:7px;">*Obligatorio</ion-note>
+              </ion-item>
+              
+              <ion-button expand="full" color="primary" type="button" [disabled]="registerForm.controls['wantsToSell'].invalid"
+                (click)="nextStep()">
+                Siguiente
+              </ion-button>
+              <ion-button expand="full" color="secondary" type="button" [disabled]="registerForm.controls['wantsToSell'].invalid"
+                (click)="previousStep()">
+                Anterior
+              </ion-button>
+            </ng-container>
+
+            <!-- Paso 3: Contraseña -->
+            <ng-container *ngIf="currentStep === 3">
+              <ion-item>
+                <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" label="Contraseña"
+                  labelPlacement="floating" placeholder="--- --- --- --- ---"></ion-input>
+                <div color="none" class="btn_ahow_pass" slot="end" (click)="togglePasswordVisibility()">
+                  <ion-icon style="color: black;" [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+                </div>
+                <ion-note *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched"
+                  color="danger" style="font-size:9px;">*Contraseña de al menos <strong>8 caracteres</strong>, una letra
+                  <strong>mayúscula</strong> y un <strong>número</strong>.</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-input formControlName="confirm_password" type="password" label="Repetir Contraseña"
+                  labelPlacement="floating" placeholder="--- --- --- --- ---"></ion-input>
+                <ion-note
+                  *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.controls['confirm_password'].touched"
+                  color="danger" style="font-size:7px;">*Las contraseñas no coinciden.</ion-note>
+              </ion-item>
+              <ion-button expand="full" color="primary" type="submit" [disabled]="registerForm.invalid">
+                Registrar
+              </ion-button>
+              <ion-button expand="full" color="secondary" type="button" (click)="previousStep()">
+                Anterior
+              </ion-button>
+            </ng-container>
           </ion-list>
-          <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">Registrar</ion-button>
         </form>
+
+
       </div>
     </ion-col>
     <ion-col class="right-col animacion_TEXT" style="background-color: rgba(25, 101, 101, 0);">

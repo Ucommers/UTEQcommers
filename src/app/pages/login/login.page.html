@@ -18,8 +18,11 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input formControlName="password" type="password"></ion-input>
-        </ion-item>
+          <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password"></ion-input>
+          <div color="none" class="btn_ahow_pass" slot="end" (click)="togglePasswordVisibility()">
+            <ion-icon style="color: black;" [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </div>
+        </ion-item>        
       </ion-list>
       <div class="buttons-container">
         <ion-button expand="full" shape="round" type="submit" [disabled]="loginForm.invalid">Login</ion-button>

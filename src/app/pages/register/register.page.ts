@@ -8,6 +8,7 @@ import {
   FormGroup,
   ValidationErrors,
   Validators,
+  ValidatorFn,
 } from '@angular/forms';
 
 @Component({
@@ -19,13 +20,16 @@ export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
   loading!: HTMLIonLoadingElement; // Variable para manejar el componente de carga (loading)
   public isLoggedIn: boolean = false;
+  wantsToSell: string = 'no';
+  showPassword: boolean = false;
+  currentStep: number = 1; 
 
   constructor(
     private formBuilder: FormBuilder,
-    private loadingController: LoadingController, 
-    private authService: AuthService, 
-    private alertController: AlertController, 
-    private router: Router, 
+    private loadingController: LoadingController,
+    private authService: AuthService,
+    private alertController: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -40,20 +44,23 @@ export class RegisterPage implements OnInit {
         ],
         password: ['', [Validators.required, this.passwordValidator]],
         confirm_password: ['', Validators.required],
+        wantsToSell: ['', Validators.required],
       },
       {
-        validator: this.passwordMatchValidator, 
+        validator: this.passwordMatchValidator,
       }
     );
-    
+
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn; 
+      this.isLoggedIn = loggedIn;
     });
   }
 
-  // Validador personalizado para el email
+
+
+  // Validador personalizado para el email de UTEQ
   emailValidator(control: AbstractControl): ValidationErrors | null {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@uteq\.edu\.mx$/;
     return emailRegex.test(control.value) ? null : { emailInvalid: true };
   }
 
@@ -70,36 +77,43 @@ export class RegisterPage implements OnInit {
     return password === confirmPassword ? null : { passwordsMismatch: true };
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   // ☢️ Método para manejar el envío del formulario de registro
   async onSubmit() {
     if (this.registerForm.invalid) {
-      return; 
+      return;
     }
     // Muestra un loading mientras se procesa el registro
     await this.presentLoading();
-  
-    this.authService
-      .register(this.registerForm.value)
-      .subscribe({
-        next: async (response) => {
-          await this.dismissLoading();
-          console.log('Usuario registrado con éxito', response);
-          this.router.navigate(['star/login']); 
-        },
-        error: async (error) => {
-          console.error('Error en el registro', error);
-          await this.dismissLoading();
-          await this.presentErrorAlert(error.error.message);  
-        }
-      });
+
+    this.authService.register(this.registerForm.value).subscribe({
+      next: async (response) => {
+        await this.dismissLoading();
+        console.log('Usuario registrado con éxito', response);
+        this.router.navigate(['star/login']);
+      },
+      error: async (error) => {
+        console.error('Error en el registro', error);
+        await this.dismissLoading();
+        await this.presentErrorAlert(error.error.message);
+      },
+    });
   }
-  
-  // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción  
+  nextStep() {
+    this.currentStep++;
+  }
+
+  previousStep() {
+    this.currentStep--;
+  }
+  // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción
   async presentLoading() {
     this.loading = await this.loadingController.create({
-      spinner: 'crescent', 
-      message: 'Registrando...', 
-      cssClass: 'my-custom-loading-3', 
+      spinner: 'crescent',
+      message: 'Registrando...',
+      cssClass: 'my-custom-loading-3',
     });
     await this.loading.present();
   }
@@ -115,7 +129,9 @@ export class RegisterPage implements OnInit {
   async presentErrorAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
-      message: message || 'Hubo un problema con el registro. Por favor, inténtalo de nuevo.',
+      message:
+        message ||
+        'Hubo un problema con el registro. Por favor, inténtalo de nuevo.',
       buttons: ['OK'],
     });
     await alert.present();

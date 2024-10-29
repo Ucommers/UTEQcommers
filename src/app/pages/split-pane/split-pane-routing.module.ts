@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard'; 
+import { vendedorGuard } from '../../guards/vendedor.guard'; 
 import { SplitPanePage } from './split-pane.page';
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: 'productos',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, vendedorGuard],
         loadChildren: () => import('../productos/productos.module').then( m => m.ProductosPageModule)
       },
       {

@@ -1,19 +1,25 @@
 <!-- MENÚ INFERIOR PARA LA WEB 💻  && p.rol.includes(currentUser?.tipo) -->
 <ion-header *ngIf="isLargeScreen">
   <ion-toolbar class="barra_web1" color="nome">
-    <!-- <ion-title>
+    <!-- <ion-title> -->
       <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav" loading="lazy">
-    </ion-title> -->
+    <!-- </ion-title> -->
     <!-- Menú de navegación superior -->
     <ion-buttons class="menu-button" slot="end">
-      <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav" loading="lazy">
-      <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
+      <!-- <img src="assets/images/logo_barra.png" alt="Logo" class="logo_img_nav" loading="lazy"> -->
+      <ion-button>
+        <ion-searchbar placeholder="Buscar..." class="custom-search-bar"></ion-searchbar>
+      </ion-button>
       <ng-container *ngFor="let p of pagesWeb">
-        <ion-button class="btn_decorate_all" *ngIf="(p.authRequired === isLoggedIn || !p.authRequired)"
-          [routerLink]="p.url" router-direction="root">
+        <ion-button
+          class="btn_decorate_all"
+          *ngIf="(p.authRequired === isLoggedIn || !p.authRequired) && p.tipo.includes(currentUser?.tipo)"
+          [routerLink]="p.url"
+          router-direction="root">
           {{ p.title }}
         </ion-button>
       </ng-container>
+      
       <ion-button *ngIf="!isLoggedIn" class="btn_decorate_all" [routerLink]="'./login'" router-direction="root">
         Iniciar sesión
       </ion-button>
@@ -131,14 +137,14 @@
     <ion-list class="list_menu">
       <span *ngFor="let p of pagesAll">
         <ion-item *ngIf="(p.authRequired === isLoggedIn || !p.authRequired)" [routerLink]="p.url" routerDirection="root"
-          style="cursor: pointer;" class="menu-item">
+          style="cursor: pointer;" class="menu-item" (click)="closeMenu()">
           <ion-icon [name]="p.icon" class="menu-icon"></ion-icon>
           <ion-label>{{ p.title }}</ion-label>
         </ion-item>
       </span>
       <span *ngFor="let p of pagesWeb">
-        <ion-item *ngIf="(p.authRequired === isLoggedIn || !p.authRequired) && !isLargeScreen && p.title !== 'Home'"
-          [routerLink]="p.url" routerDirection="root" style="cursor: pointer;" class="menu-item">
+        <ion-item *ngIf="(p.authRequired === isLoggedIn || !p.authRequired) && !isLargeScreen && p.title !== 'Home' && p.tipo.includes(currentUser?.tipo)"
+          [routerLink]="p.url" routerDirection="root" style="cursor: pointer;" class="menu-item" (click)="closeMenu()">
           <ion-icon [name]="p.icon" class="menu-icon"></ion-icon>
           <ion-label>{{ p.title }}</ion-label>
         </ion-item>

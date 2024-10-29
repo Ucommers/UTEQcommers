@@ -10,14 +10,30 @@
 }
 
 .btn_decorate_all {
-  background-color: #ffffff15;
+  background-color: #ffffff00;
   border-radius: 25px;
   padding: 1px;
   font-weight: 12px;
 }
+.btn_decorate_all:hover{
+  border-radius: 0px;
+  border-bottom: 1px solid #ffffff;
+  background-color: #ffffff0f;
+}
 
 .style_button {
   color: var(--primary-all-v1);
+}
+
+.btn_ahow_pass{
+  color: black;
+  margin-top: 2rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+}
+.btn_ahow_pass:hover{
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 

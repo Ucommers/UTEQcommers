@@ -39,7 +39,8 @@ $color-texto: #666;
 
 .pocicion_cartas {
   position: absolute;
-  top: 5rem;
+  top: 0rem;
+  max-width: 2000px;
 }
 
 .filas_cartas {

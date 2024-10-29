@@ -24,21 +24,21 @@ export class SplitPanePage implements OnInit {
       title: 'Home',
       url: './home',
       icon: 'home',
-      rol : ['comprador', 'vendedor', 'administrador'],
+      tipo : ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
       title: 'Trabajos',
       url: './trabajos',
       icon: 'code-working',
-      rol : ['comprador', 'vendedor', 'administrador'],
+      tipo : ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
       title: 'Productos',
       url: './productos',
       icon: 'logo-tux',
-      rol : ['vendedor'],
+      tipo : ['vendedor'],
       authRequired: true,
     },
   ];
@@ -48,21 +48,21 @@ export class SplitPanePage implements OnInit {
       title: 'Ayuda',
       url: './ayuda',
       icon: 'help-outline',
-      rol : ['comprador', 'vendedor', 'administrador'],
+      tipo : ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
       title: 'Configuraciones',
       url: './configuraciones',
       icon: 'settings-sharp',
-      rol : ['comprador', 'vendedor', 'administrador'],
+      tipo : ['comprador', 'vendedor', 'administrador'],
       authRequired: true,
     },
     {
       title: 'Mis datos',
       url: './mis-datos',
       icon: 'person-circle-outline',
-      rol : ['comprador', 'vendedor', 'administrador'],
+      tipo : ['comprador', 'vendedor', 'administrador'],
       authRequired: true,
     },
   ];
@@ -114,7 +114,7 @@ export class SplitPanePage implements OnInit {
     // Obtener el usuario actual 
     this.currentUser = this.authService.currentUserValue;
     // Mostrar los datos del usuario en la consola
-    // console.log('Datos del usuario:', this.currentUser);
+    console.log(this.currentUser);
   }
 
   checkScreenSize() {
@@ -135,6 +135,7 @@ export class SplitPanePage implements OnInit {
         {
           text: 'Cerrar Sesión',
           handler: () => {
+            this.closeMenu();
             this.authService.logout();
             this.router.navigate(['star/home'], { replaceUrl: true }); 
           },

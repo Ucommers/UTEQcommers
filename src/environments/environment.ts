@@ -5,7 +5,7 @@
 // environment.ts
 export const environment = {
   production: false,
-  apiUrl: 'https://cervaya.pro/ApiUcommers/api' // Cambia esta URL si es necesario
+  apiUrl: 'https://cervaya.pro/ApiUcommers/api' 
 };
 
 /*

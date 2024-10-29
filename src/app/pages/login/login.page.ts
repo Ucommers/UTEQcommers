@@ -13,7 +13,8 @@ import { LoadingController, AlertController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   loginForm: FormGroup; // Formulario para capturar las credenciales del usuario
   loading!: HTMLIonLoadingElement; // Variable para manejar el componente de carga (loading)
-
+  showPassword: boolean = false;
+  
   constructor(
     private formBuilder: FormBuilder, // Para crear y gestionar el formulario reactivo
     private router: Router, // Para navegar entre páginas de la aplicación
@@ -21,6 +22,7 @@ export class LoginPage implements OnInit {
     private alertController: AlertController, // Controlador para mostrar alertas o modales
     private AuthService: AuthService
   ) {
+    
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required], // Campo de usuario, obligatorio
       password: ['', Validators.required], // Campo de contraseña, obligatorio
@@ -56,7 +58,8 @@ export class LoginPage implements OnInit {
         // Si la autenticación es exitosa, oculta el loading y navega a la página de inicio
         next: async () => {
           await this.dismissLoading();
-          this.router.navigate(['/star/home']);
+          // this.router.navigate(['/star/home']);
+          window.location.href = '/star/home';
         },
         // Si hay un error (por ejemplo, credenciales incorrectas), oculta el loading y muestra la alerta de error
         error: async (error) => {
@@ -100,6 +103,11 @@ export class LoginPage implements OnInit {
     });
 
     await alert.present(); // Muestra la alerta
+  }
+
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
   
 }
