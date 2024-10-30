@@ -1,31 +1,107 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service'; // Ajusta la ruta según la ubicación de tu servicio
+import { Component, OnInit } from '@angular/core';
+import { ProductsService } from '../../services/products.service';
 import { AlertController, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage  {
+export class HomePage implements OnInit {
+  productos: any[] = [];
+  categorias: any[] = [];
   isModalOpen = false;
   public isLargeScreen: boolean;
+
   constructor(
-    private authService: AuthService,
+    private ProductsService: ProductsService,
+    private alertController: AlertController,
+    private router: Router,
     private platform: Platform
   ) {
-    
-    this.isLargeScreen = this.platform.width() >= 768;
+    this.isLargeScreen = this.platform.width() >= 765;
+
     this.platform.resize.subscribe(() => {
       this.checkScreenSize();
     });
-  } // Inyección del servicio
+  }
 
-  // ngOnInit() {
-    
-  // }
+  ngOnInit() {
+    // Trae todos los productos
+    this.ProductsService.getProductos().subscribe(
+      (response) => {
+        this.productos = response.productos;
+      },
+      (error) => {
+        this.showAlert('Ups! Error al obtener los productos.', 'Error ❌');
+      }
+    );
 
-  productos = [
+    // Trae las categorias de la bd
+    this.ProductsService.getCategorias().subscribe(
+      (response) => {
+        this.categorias = response.categorias;
+        // console.log(this.categorias);
+      },
+      (error) => {
+        this.showAlert('Ups! Error al obtener las categorias.', 'Error ❌');
+      }
+    );
+  }
+
+  // ☢️ detalle del producto
+  verDetalleProducto(productId: number) {
+    this.router.navigate(['star/product-detalle', productId]);
+  }
+
+  // ☢️ detalle del producto
+  filtroProductos(categoriaId: number) {
+    // console.log(categoriaId)
+    this.ProductsService.filtrarProductos(categoriaId).subscribe(
+      (response: any) => {
+        this.productos = response.productos;
+        // console.log(this.productos)
+      },
+      (error: any) => {
+        const errorMessage = error.error.msj ;
+        this.showAlert(errorMessage, 'Error ❌');
+      }
+    );
+  }
+  // ☢️
+  async showAlert(message: string, tex: string) {
+    const alert = await this.alertController.create({
+      header: tex,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  refreshProductos() {
+    this.ProductsService.getProductos().subscribe(
+      (response) => {
+        this.productos = response.productos;
+      },
+      (error) => {
+        this.showAlert('Error al obtener los productos.', 'Error');
+      }
+    );
+  }
+
+  checkScreenSize() {
+    this.isLargeScreen = this.platform.width() >= 765;
+  }
+  
+  ionViewWillEnter() {
+
+  }
+}
+
+/**
+  productosXD = [*
     {
       nombre: 'Lápiz Escolar HB',
       precio: 12.00,
@@ -174,18 +250,5 @@ export class HomePage  {
       imagen: 'assets/img_all/calculadora.jpg',
     },
   ];
-  
 
-  checkScreenSize() {
-    this.isLargeScreen = this.platform.width() >= 768;
-  }
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  // Método para alternar la visibilidad del menú
-  toggleMenu() {
-    this.authService.toggleMenu(); // Llama al método del servicio
-  }
-}
+ */

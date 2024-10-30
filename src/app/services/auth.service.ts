@@ -3,16 +3,18 @@ import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment'; // Importar el environment
+import { environment } from '../../environments/environment'; 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isMenuVisible = true; // Estado inicial del menú (visible)
+  private isMenuVisible = true; // Estado inicial del menú 
 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
+
+  // BehaviorSubject almacena el último valor emitido y lo ofrece a los nuevos logeados inmediatamente.
 
   private isLoggedInSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -30,10 +32,13 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  // ☢️ Método varificar si estoy autenticado
+  //Este método verifica directamente si existe un token almacenado en el localStorage.
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }
-
+  
+  // ☢️ Método para logearme
   login(username: string, password: string): Observable<any> {
     return this.http
       .post<any>(`${environment.apiUrl}/login`, {
@@ -42,21 +47,30 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
+          // Aqui almacenamos el token de autenticación que recibe del servidor
           localStorage.setItem('token', response.token);
+          // Almacena la informacion del usuario autenticad en el local storage bajo la clave currentUser
           localStorage.setItem('currentUser', JSON.stringify(response.user));
+          // permite que otras partes de la aplicacion que estan suscritas al currentUserSubject 
+          // reciban la actualización inmediata sobre quién es el usuario que está logueado.
           this.currentUserSubject.next(response.user);
-          this.isLoggedInSubject.next(true); 
+          // Actualiza el BehaviorSubject llamado isLoggedInSubject para indicar que el usuario está logueado (true)
+          this.isLoggedInSubject.next(true);
         })
       );
   }
+
+  // ☢️ Método para registrar usuario
   register(registerForm: any): Observable<any> {
+    
     const userData = {
       nombre: registerForm.nombre,
       apellido_paterno: registerForm.apellido_paterno,
       apellido_materno: registerForm.apellido_materno,
       email: registerForm.email,
       password: registerForm.password,
-      checkMedico: true, 
+      vendedor: registerForm.wantsToSell,
+      checkMedico: true,
     };
 
     return this.http.post<any>(`${environment.apiUrl}/registro`, userData).pipe(
@@ -66,30 +80,21 @@ export class AuthService {
     );
   }
 
+  // ☢️ Método pasra cerrar sesión
   logout() {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
-    this.isLoggedInSubject.next(false); // Emitir el nuevo estado
+    this.isLoggedInSubject.next(false);
   }
 
+  // ☢️ Método varificar si estoy autenticado
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
   }
   
-  // ------ -------
-
-  // Método para alternar la visibilidad del menú
-  toggleMenu() {
-    const menu = document.querySelector('ion-menu'); // Selecciona el menú
-    if (menu) {
-      // Alterna entre oculto y visible
-      if (this.isMenuVisible) {
-        (menu as HTMLElement).style.display = 'none'; // Oculta el menú
-      } else {
-        (menu as HTMLElement).style.display = 'block'; // Muestra el menú
-      }
-      this.isMenuVisible = !this.isMenuVisible; // Cambia el estado
-    }
+  verificaVendedor(): boolean {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    return currentUser?.tipo === 'vendedor';
   }
 }

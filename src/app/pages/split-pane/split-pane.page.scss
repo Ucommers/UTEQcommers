@@ -2,6 +2,46 @@
   border-left: 8px solid rgb(21, 0, 253);
 }
 
+.img_icon {
+  width: 30px;
+  height: auto;
+}
+
+.custom-search-bar {
+  --box-shadow: none; // Elimina cualquier sombra
+  --background: rgba(255, 255, 255, 0.098); // Asegúrate de que el fondo sea transparente
+  border: none; // Elimina cualquier borde existente
+  border-bottom: 1px solid #fefefe; // Añade una línea inferior
+  padding: 0px; // Asegúrate de que no haya padding adicional
+  color: #ffffff;
+  // width: auto;
+  margin-right: 7px;
+  margin-left: 1rem;
+}
+
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(-100%);
+    /* Posición inicial fuera de la pantalla */
+    opacity: 0;
+    /* Invisible al principio */
+  }
+
+  100% {
+    transform: translateX(0);
+    /* Posición final */
+    opacity: 1;
+    /* Totalmente visible */
+  }
+}
+
+// .barra_web1 ion-buttons,
+// ion-title {
+//   animation: slideInRight 1.5s ease-out;
+// }
+
+
 // ----------------- 
 // -----------------
 
@@ -45,6 +85,11 @@
   font-size: 18px;
 }
 
+.logo_img_nav_movil {
+  margin-left: 5px;
+  width: 1%;
+  height: auto;
+}
 
 // ----------------- 
 
@@ -58,9 +103,9 @@
     height: auto;
   }
 
-  .logo_img_nav {
-    margin-left: 0rem;
-    width: 55%;
+  .logo_img_nav_movil {
+    margin-left: 5px;
+    width: 15%;
     height: auto;
   }
 
@@ -74,19 +119,30 @@
     --width: 200px !important;
   }
 
+  .custom-search-bar {
+    --box-shadow: none; // Elimina cualquier sombra
+    --background: rgba(255, 255, 255, 0.098); // Asegúrate de que el fondo sea transparente
+    border: none; // Elimina cualquier borde existente
+    border-bottom: 1px solid #fefefe; // Añade una línea inferior
+    padding: 0px; // Asegúrate de que no haya padding adicional
+    color: #ffffff;
+    // width: auto;
+    margin-right: 2rem;
+    margin-left: 2rem;
+  }
 }
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 767px) {
   .search-bar {
     width: auto;
     height: auto;
     margin: 5px;
   }
 
-  .logo_img_nav {
-    margin-left: 0rem;
-    width: 35%;
+  .logo_img_nav_movil {
+    margin-left: 5px;
+    width: 15%;
     height: auto;
   }
 
@@ -95,19 +151,28 @@
     margin-right: 13px;
   }
 
+  .custom-search-bar {
+    --box-shadow: none; // Elimina cualquier sombra
+    --background: rgba(255, 255, 255, 0.098); // Asegúrate de que el fondo sea transparente
+    border: none; // Elimina cualquier borde existente
+    border-bottom: 1px solid #fefefe; // Añade una línea inferior
+    padding: 0px; // Asegúrate de que no haya padding adicional
+    color: #ffffff;
+    // width: auto;
+    margin-right: 2rem;
+    margin-left: 2rem;
+  }
 
 }
 
 // --- WEB 💻 ---
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
 
   .logo_img_nav {
-    // margin-left: -35rem;
-    // display: none;
-    margin-left: 0rem;
-    width: 12%;
+    margin-left: 1rem;
+    width: 10%;
     height: auto;
   }
 

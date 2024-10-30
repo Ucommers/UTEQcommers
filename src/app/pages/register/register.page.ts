@@ -8,6 +8,7 @@ import {
   FormGroup,
   ValidationErrors,
   Validators,
+  ValidatorFn,
 } from '@angular/forms';
 
 @Component({
@@ -18,13 +19,17 @@ import {
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
   loading!: HTMLIonLoadingElement; // Variable para manejar el componente de carga (loading)
+  public isLoggedIn: boolean = false;
+  wantsToSell: string = 'no';
+  showPassword: boolean = false;
+  currentStep: number = 1; 
 
   constructor(
     private formBuilder: FormBuilder,
-    private loadingController: LoadingController, 
-    private authService: AuthService, // Corregido el nombre a camelCase
-    private alertController: AlertController, // Agregamos el AlertController para manejar alertas
-    private router: Router, // Para navegar entre páginas de la aplicación
+    private loadingController: LoadingController,
+    private authService: AuthService,
+    private alertController: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,16 +44,23 @@ export class RegisterPage implements OnInit {
         ],
         password: ['', [Validators.required, this.passwordValidator]],
         confirm_password: ['', Validators.required],
+        wantsToSell: ['', Validators.required],
       },
       {
-        validator: this.passwordMatchValidator, // Para asegurarte que las contraseñas coinciden
+        validator: this.passwordMatchValidator,
       }
     );
+
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 
-  // Validador personalizado para el email
+
+
+  // Validador personalizado para el email de UTEQ
   emailValidator(control: AbstractControl): ValidationErrors | null {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@uteq\.edu\.mx$/;
     return emailRegex.test(control.value) ? null : { emailInvalid: true };
   }
 
@@ -65,39 +77,45 @@ export class RegisterPage implements OnInit {
     return password === confirmPassword ? null : { passwordsMismatch: true };
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   // ☢️ Método para manejar el envío del formulario de registro
   async onSubmit() {
     if (this.registerForm.invalid) {
-      return; // Si el formulario es inválido, no hace nada
+      return;
     }
-  
     // Muestra un loading mientras se procesa el registro
     await this.presentLoading();
-  
-    this.authService
-      .register(this.registerForm.value)
-      .subscribe({
-        next: async (response) => {
-          await this.dismissLoading();
-          console.log('Usuario registrado con éxito', response);
-          this.router.navigate(['_/login']); 
-        },
-        error: async (error) => {
-          console.error('Error en el registro', error);
-          await this.dismissLoading();
-          await this.presentErrorAlert(error.error.message);  // Mostrar alerta de error en caso de fallo
-        }
-      });
+
+    this.authService.register(this.registerForm.value).subscribe({
+      next: async (response) => {
+        await this.dismissLoading();
+        console.log('Usuario registrado con éxito', response);
+        this.router.navigate(['star/login']);
+      },
+      error: async (error) => {
+        console.error('Error en el registro', error);
+        await this.dismissLoading();
+        await this.presentErrorAlert(error.error.message);
+      },
+    });
   }
-  
-  // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción  
+  nextStep() {
+    this.currentStep++;
+  }
+
+  previousStep() {
+    this.currentStep--;
+  }
+  // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción
   async presentLoading() {
     this.loading = await this.loadingController.create({
-      spinner: 'crescent', // Puedes elegir otro tipo de spinner
-      message: 'Registrando...', // Mensaje opcional
-      cssClass: 'my-custom-loading-3', // Clase CSS personalizada
+      spinner: 'crescent',
+      message: 'Registrando...',
+      cssClass: 'my-custom-loading-3',
     });
-    await this.loading.present(); // Muestra el loading
+    await this.loading.present();
   }
 
   // ☢️ Oculta el loading cuando termina la acción
@@ -107,12 +125,13 @@ export class RegisterPage implements OnInit {
     }
   }
 
-
   // ☢️ Muestra una alerta de error en caso de que el registro falle
   async presentErrorAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
-      message: message || 'Hubo un problema con el registro. Por favor, inténtalo de nuevo.',
+      message:
+        message ||
+        'Hubo un problema con el registro. Por favor, inténtalo de nuevo.',
       buttons: ['OK'],
     });
     await alert.present();

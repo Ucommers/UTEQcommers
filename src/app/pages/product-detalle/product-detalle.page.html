@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+        Regresar
+      </ion-button>
+    </ion-buttons>
+    <!-- <ion-title>{{ producto?.nombre }}</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="card_producto" *ngIf="producto">
+    <ion-grid>
+      <ion-row>
+
+        <!-- Primera parte: Imagen -->
+        <ion-col>
+          <h1 class="nombre_producto" *ngIf="!isLargeScreen">{{ producto.nombre }}</h1>
+          <div class="espacio_img">
+            <img
+              [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
+              alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
+          </div>
+        </ion-col>
+
+        <!-- Segunda parte: Nombre, Precio, Descripción   (click)="agregarCarrito(producto.id)"              -->
+        <ion-col class="seccion_descipcion_producto">
+          <h1 class="nombre_producto" *ngIf="isLargeScreen">{{ producto.nombre }}</h1>
+          <br *ngIf="isLargeScreen">
+          <h3 class="precio_producto text-danger">${{ producto.precio }}</h3>
+          <p class="text-success"><strong>{{producto.stock}}</strong> Exist</p>
+          <br *ngIf="isLargeScreen">
+          <h5 class="descri_producto">{{ producto.descripcion }}</h5>
+        </ion-col>
+        <!-- Tercera parte: Botones -->
+        <ion-col class="botones_producto">
+          <ion-button color="secondary" expand="block" (click)="confirmarAgregarCarrito(producto.id)">
+            Agregar al carrito
+          </ion-button>
+          <ion-button color="primary" expand="block">Comprar</ion-button>
+          <ion-card class="card_vendedor">
+            <h6 class="titulo_vendedor">Vendedor</h6>
+            <div class="contenedor_info">
+              <div class="espacio_img_perfil">
+                <img src="assets/img_all/perfil.avif" alt="Logo" class="imagen_prfil" loading="lazy">
+              </div>
+              <div class="profile_text">
+                {{ producto.user.nombre }} 
+                {{ producto.user.apellido_paterno }} 
+                {{ producto.user.apellido_materno }} 
+              </div>
+            </div>
+          </ion-card>
+          
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>
+
+
+<!-- <form class="insert_form" [formGroup]="FormAgregarCarrito">
+  <input formControlName="id_producto" type="hidden" [value]="producto.id">
+  <ion-item>
+    <ion-label>Cantidad</ion-label>
+    <ion-select formControlName="cantidad" interface="popover">
+      <ion-select-option *ngFor="let cantidad of cantidadesDisponibles" [value]="cantidad">
+        {{ cantidad }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button type="submit" color="secondary" expand="block" (click)="agregarCarrito(producto.id)">
+    Agregar al carrito
+  </ion-button>
+</form> -->

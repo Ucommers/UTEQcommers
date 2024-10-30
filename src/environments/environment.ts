@@ -5,7 +5,7 @@
 // environment.ts
 export const environment = {
   production: false,
-  apiUrl: 'http://127.0.0.1:5000/' // Cambia esta URL si es necesario
+  apiUrl: 'https://cervaya.pro/ApiUcommers/api' 
 };
 
 /*

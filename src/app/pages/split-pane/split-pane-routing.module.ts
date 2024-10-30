@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard'; 
+import { vendedorGuard } from '../../guards/vendedor.guard'; 
 import { SplitPanePage } from './split-pane.page';
 
 const routes: Routes = [
@@ -13,9 +14,9 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'prueba',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('../prueba/prueba.module').then( m => m.PruebaPageModule)
+        path: 'productos',
+        canActivate: [AuthGuard, vendedorGuard],
+        loadChildren: () => import('../productos/productos.module').then( m => m.ProductosPageModule)
       },
       {
         path: 'login',
@@ -28,6 +29,25 @@ const routes: Routes = [
       {
         path: 'trabajos',
         loadChildren: () => import('../trabajos/trabajos.module').then( m => m.TrabajosPageModule)
+      },
+      {
+        path: 'mis-datos',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
+      },
+      {
+        path: 'product-detalle/:id',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
+      },
+      {
+        path: 'carrito',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../carrito/carrito.module').then( m => m.CarritoPageModule)
+      },
+      {
+        path: 'recuperacion-pass',
+        loadChildren: () => import('../recuperacion-pass/recuperacion-pass.module').then( m => m.RecuperacionPassPageModule)
       },
     ]
   }

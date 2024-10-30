@@ -1,10 +1,17 @@
-$color-fondo: #f9f9f9;
-$color-titulo: #333;
+$color-titulo: #000000;
 $color-precio: #ff5722;
 $color-descuento: #4caf50;
 $color-texto: #666;
 
-
+.img_icon {
+  width: 20px;
+  height: auto;
+}
+.nombre_vendedor{
+  position: absolute;
+  padding: 2px;
+  top: 1px;
+}
 .custom-toolbar {
   // arriba, derecha, abajo, izquierda
   padding: 0rem 0rem 0rem 0rem;
@@ -14,294 +21,230 @@ $color-texto: #666;
   display: block;
 }
 
+.text_categorias {
+  font-size: 11px !important;
+}
 
 .custom-search-bar {
-  --box-shadow: none;
-  /* Elimina cualquier sombra del searchbar */
-  --background: #ffffff;
-  /* Opcional: Cambia el fondo si lo deseas */
+  --box-shadow: none; // Elimina cualquier sombra
+  --background: #ecececaf;
 }
 
 .ofertas_contenido {
-  // background: linear-gradient(to bottom, var(--primary-all-v1) 0%, #0a5ae377 100%) !important;
-  background: linear-gradient(to bottom, var(--primary-all-v1) 0%, rgba(255, 255, 255, 1) 100%) !important;
-  padding: 20px;
-  text-align: center; // Centrar texto
-  color: white; // Color de texto blanco
-  border-radius: 0px; // Bordes redondeados
+  background: linear-gradient(to bottom, var(--primary-all-v1) 20%, var(--ion-background-color) 100%) !important;
+  height: 30rem;
+  text-align: center;
+  display: block;
 }
 
-// texto de oferta inicio
-.titulo_v1 {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: rgb(255, 235, 11);
-  font-size: 2rem !important;
-  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.182);
-  /* Bordes en navegadores WebKit */
+.pocicion_cartas {
+  position: absolute;
+  top: 0rem;
+  max-width: 2000px;
 }
 
-.ofertas_texto h2 {
-  font-size: 2rem;
+.filas_cartas {
+  --ion-grid-padding: 20px; // Padding general para el grid
+  justify-content: left; // Alineación centrada de las cartas
+}
+
+.text_inicio {
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}
+
+
+// ----- ANIMACIÓN DE LAS CARTAS 
+
+.animacion_carta {
+  background-color: #ffffff;
+  animation: slideInUp 1s ease-out;
+  opacity: 0; // Asegura que esté invisible hasta que se reproduzca la animación 
+  animation-fill-mode: forwards; // Mantiene el estado final después de la animación 
+  cursor: pointer;
+}
+
+.animacion_carta:hover ion-card-title {
+  color: var(--primary-all-v1);
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+    /* Posición inicial fuera de la pantalla, abajo */
+    opacity: 0;
+    /* Invisible al principio */
+  }
+
+  100% {
+    transform: translateY(0);
+    /* Posición final */
+    opacity: 1;
+    /* Totalmente visible */
+  }
+}
+
+
+// ----- ANIMACION DE LA BARRA 
+
+@keyframes slideInRight {
+  0% {
+    transform: translateY(100%);
+    /* Posición inicial fuera de la pantalla */
+    opacity: 0;
+    /* Invisible al principio */
+  }
+
+  100% {
+    transform: translateY(0);
+    /* Posición final */
+    opacity: 1;
+    /* Totalmente visible */
+  }
+}
+
+.barra_web1 ion-buttons,
+ion-searchbar {
+  animation: slideInRight 1s ease-out;
+  /* Duración de 0.6 segundos */
+}
+
+
+
+.lista_productos {
+  width: 100%;
   margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0rem;
 }
 
-.ofertas_texto p {
-  font-size: 1.2rem;
-  margin: 10px 0 0;
+.item_completo {
+  width: 100%; // Cada item debe ocupar el 100% del ancho
+  --inner-padding-end: 10px; // Ajusta este valor segunn sea necesario
+  --padding-start: 10px; // Ajusta este valor segunn sea necesario
+  margin-bottom: 20px !important; // Espacio entre cada item
+  display: flex; // Utiliza flex para alinear el contenido
+  align-items: center; // Centra verticalmente los elementos dentro de la fila
 }
+
+.item_completo ion-thumbnail {
+  width: 7rem;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; // Oculta cualquier parte que exceda el contenedor 
+  background-color: #f4f4f4; // Color de fondo opcional 
+}
+
+.imagen_producto_list {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.titulo_producto_list {
+  font-weight: bold;
+  /* Aumenta el peso de la fuente para el título */
+}
+
+.precio_producto_list {
+  color: #3880ff;
+  /* Cambia el color del precio */
+}
+
+.descuento_list {
+  color: #999;
+  /* Cambia el color del stock */
+}
+
+.ocultar_movil {
+  display: block;
+}
+
+
 
 // --- Movil 📱 ---
 
 /* Para pantallas de móviles (hasta 480px) */
 @media (max-width: 480px) {
-  .header_home {
+  ion-header {
     margin-top: 3rem !important;
   }
 
-  .ofertas_texto h2 {
-    font-size: 15px;
-    margin: 0;
+  .ocultar_movil {
+    display: none;
   }
 
-  .button_carrito {
-    display: none !important;
-  }
-
-
-  .ofertas_texto p {
-    font-size: 12px;
-    margin: 10px 0 0;
-  }
-
-  .text_categorias {
-    font-size: 11px !important;
-  }
-
-  // imagen en home de publicidad 
-  .img_pubicidad {
-    width: 60%;
+  .img_icon {
+    width: 15px;
     height: auto;
   }
 
-  // ----  CARTAS ----
-
-  .contenido_catalogo {
-    background-color: $color-fondo;
+  .size_text {
+    font-size: 13px !important;
   }
 
-  .fila_productos {
-    display: flex;
-    flex-wrap: wrap; // Permite que los elementos se ajusten en varias líneas
-    justify-content: center; // Centra los elementos en la fila
+  .ofertas_contenido {
+    display: none;
   }
-
-  .columna_producto {
-    flex: 1 1 190px; //Ancho de la carta 
-  }
-
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.052);
-    border-radius: 10px;
-    margin: 0px;
-    transition: transform 0.2s;
-    max-width: 190px; // Establece la Ancho máxima de la tarjeta
-    overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
-
-    &:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
-  }
-
-  .imagen_producto {
-    width: 100%;
-    /* La imagen ocupa el 100% del ancho de la tarjeta */
-    height: 100px;
-    /* Define una altura fija para que todas las imágenes tengan la misma altura */
-    object-fit: cover;
-    /* La imagen se ajustará al contenedor, recortando si es necesario */
-    margin: 0 auto;
-    /* Asegura que la imagen esté centrada */
-  }
-
-  .titulo_producto {
-    font-weight: bold;
-    font-size: 12px;
-    color: $color-titulo;
-  }
-
-  .precio_producto {
-    color: $color-precio;
-    font-size: 15px;
-  }
-
-  .descuento {
-    font-size: 10px;
-    color: $color-descuento;
-  }
-
-  .contenido_producto {
-    color: $color-texto;
-  }
-
-  // ---- FIN DE LA CARTA ----
-
 }
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .header_home {
+@media (min-width: 481px) and (max-width: 765px) {
+
+  ion-header {
     margin-top: 3rem !important;
   }
 
-  // imagen en home de publicidad 
-  .img_pubicidad {
-    width: 35%;
+  .ocultar_movil {
+    display: none;
+  }
+
+  .img_icon {
+    width: 15px;
     height: auto;
   }
 
-  .button_carrito {
-    display: none !important;
+  .size_text {
+    font-size: 14px !important;
   }
 
-
-  .ofertas_texto h2 {
-    font-size: 17px;
-    margin: 0;
+  .ofertas_contenido {
+    display: none;
   }
-
-  .ofertas_texto p {
-    font-size: 10px;
-    margin: 10px 0 0;
-  }
-
-  .text_categorias {
-    font-size: 11px !important;
-  }
-
-  // ----  CARTAS ----
-
-  .contenido_catalogo {
-    background-color: $color-fondo;
-  }
-
-  .fila_productos {
-    display: flex;
-    flex-wrap: wrap; // Permite que los elementos se ajusten en varias líneas
-    justify-content: center; // Centra los elementos en la fila
-  }
-
-  .columna_producto {
-    flex: 1 1 200px; //Ancho de la carta 
-  }
-
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin: 10px;
-    transition: transform 0.2s;
-    max-width: 200px; // Establece la Ancho máxima de la tarjeta
-    overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
-
-    &:hover {
-
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
-  }
-
-  .imagen_producto {
-    width: 100%;
-    /* La imagen ocupa el 100% del ancho de la tarjeta */
-    height: 120px;
-    /* Define una altura fija para que todas las imágenes tengan la misma altura */
-    object-fit: cover;
-    /* La imagen se ajustará al contenedor, recortando si es necesario */
-    margin: 0 auto;
-    /* Asegura que la imagen esté centrada */
-  }
-
-  .titulo_producto {
-    font-weight: bold;
-    font-size: 14px;
-    color: $color-titulo;
-  }
-
-  .precio_producto {
-    color: $color-precio;
-    font-size: 1.2em;
-  }
-
-  .descuento {
-    font-size: 10px;
-    color: $color-descuento;
-  }
-
-  .contenido_producto {
-    color: $color-texto;
-  }
-
-  // ---- FIN DE LA CARTA ----
 
 }
 
 // --- WEB 💻 ---
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 766px) and (max-width: 835px) {
   .custom-toolbar {
     // arriba, derecha, abajo, izquierda
-    padding: 0rem 5rem 0rem 0rem;
-  }
-
-  .button_carrito {
-    display: none !important;
-  }
-
-
-  // imagen en home de publicidad 
-  .img_pubicidad {
-    width: 30%;
-    height: auto;
+    padding: 0rem 2rem 0rem 0rem;
   }
 
   // ----  CARTAS ----
 
-  .contenido_catalogo {
-    background-color: $color-fondo;
-  }
-
-  .fila_productos {
-    display: flex;
-    flex-wrap: wrap; // Permite que los elementos se ajusten en varias líneas
-    justify-content: center; // Centra los elementos en la fila
-  }
-
-  .columna_producto {
-    flex: 1 1 200px; //Ancho de la carta 
-  }
-
   .tarjeta_producto {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin: 10px;
+    margin: 0px;
     transition: transform 0.2s;
-    max-width: 200px; // Establece la Ancho máxima de la tarjeta
-    overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
+    width: 220px; // Establece la Ancho máxima de la tarjeta
 
+    // overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
     &:hover {
-
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
     }
   }
 
   .imagen_producto {
     width: 100%;
-    /* La imagen ocupa el 100% del ancho de la tarjeta */
     height: 200px;
-    /* Define una altura fija para que todas las imágenes tengan la misma altura */
     object-fit: cover;
-    /* La imagen se ajustará al contenedor, recortando si es necesario */
     margin: 0 auto;
-    /* Asegura que la imagen esté centrada */
   }
 
   .titulo_producto {
@@ -327,41 +270,69 @@ $color-texto: #666;
   // ---- FIN DE LA CARTA ----
 }
 
+@media (min-width: 836px) and (max-width: 1180px) {
+  .custom-toolbar {
+    // arriba, derecha, abajo, izquierda
+    padding: 0rem 2rem 0rem 0rem;
+  }
+
+  // ----  CARTAS ----
+
+  .tarjeta_producto {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 0px;
+    transition: transform 0.2s;
+    width: 250px; // Establece la Ancho máxima de la tarjeta
+    // overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
+
+    &:hover {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
+    }
+  }
+
+  .imagen_producto {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin: 0 auto;
+  }
+
+  .titulo_producto {
+    font-weight: bold;
+    font-size: 14px;
+    color: $color-titulo;
+  }
+
+  .precio_producto {
+    color: $color-precio;
+    font-size: 1.2em;
+  }
+
+  .descuento {
+    font-size: 0.8em;
+    color: $color-descuento;
+  }
+
+  .contenido_producto {
+    color: $color-texto;
+  }
+}
+
 /* Para pantallas de escritorio pequeñas (entre 1025px y 1280px) */
-@media (min-width: 1025px) and (max-width: 1280px) {
+@media (min-width: 1181px) and (max-width: 1280px) {
   .custom-toolbar {
     // arriba, derecha, abajo, izquierda
     padding: 0rem 25rem 0rem 0rem;
   }
 
-  // imagen en home de publicidad 
-  .img_pubicidad {
-    width: 30%;
-    height: auto;
-  }
-
   // ----  CARTAS ----
 
-  .contenido_catalogo {
-    background-color: $color-fondo;
-  }
-
-  .fila_productos {
-    display: flex;
-    flex-wrap: wrap; // Permite que los elementos se ajusten en varias líneas
-    justify-content: center; // Centra los elementos en la fila
-  }
-
-  .columna_producto {
-    flex: 1 1 250px; //Ancho de la carta 
-  }
 
   .tarjeta_producto {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin: 10px;
+    margin: 0px;
     transition: transform 0.2s;
-    max-width: 250px; // Establece la Ancho máxima de la tarjeta
+    width: 270px; // Establece la Ancho máxima de la tarjeta
     overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
 
     &:hover {
@@ -371,13 +342,9 @@ $color-texto: #666;
 
   .imagen_producto {
     width: 100%;
-    /* La imagen ocupa el 100% del ancho de la tarjeta */
     height: 200px;
-    /* Define una altura fija para que todas las imágenes tengan la misma altura */
     object-fit: cover;
-    /* La imagen se ajustará al contenedor, recortando si es necesario */
     margin: 0 auto;
-    /* Asegura que la imagen esté centrada */
   }
 
   .titulo_producto {
@@ -408,37 +375,17 @@ $color-texto: #666;
 
   .custom-toolbar {
     // arriba, derecha, abajo, izquierda
-    padding: 0rem 45rem 0rem 0rem;
-  }
-
-  // imagen en home de publicidad 
-  .img_pubicidad {
-    width: 30%;
-    height: auto;
+    padding: 0rem 30rem 0rem 0rem;
   }
 
   // ----  CARTAS ----
 
-  .contenido_catalogo {
-    background-color: $color-fondo;
-  }
-
-  .fila_productos {
-    display: flex;
-    flex-wrap: wrap; // Permite que los elementos se ajusten en varias líneas
-    justify-content: center; // Centra los elementos en la fila
-  }
-
-  .columna_producto {
-    flex: 1 1 280px; //Ancho de la carta 
-  }
-
   .tarjeta_producto {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 0px;
     margin: 5px;
     transition: transform 0.2s;
-    max-width: 280px; // Establece la Ancho máxima de la tarjeta
+    width: 250px; // Establece la Ancho máxima de la tarjeta
     overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
 
     &:hover {
@@ -446,14 +393,12 @@ $color-texto: #666;
     }
   }
 
-
   .imagen_producto {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    /* La imagen se ajustará al contenedor, recortando si es necesario */
     margin: 0 auto;
-    padding: 5px;
+    padding: 0 auto;
   }
 
   .titulo_producto {

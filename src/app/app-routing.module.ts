@@ -5,11 +5,11 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '_/home',
+    redirectTo: 'star/home',
     pathMatch: 'full',
   },
   {
-    path: '_',
+    path: 'star',
     loadChildren: () =>
       import('./pages/split-pane/split-pane.module').then(
         (m) => m.SplitPanePageModule
@@ -28,10 +28,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'prueba',
+    path: 'productos',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('./pages/prueba/prueba.module').then((m) => m.PruebaPageModule),
+      import('./pages/productos/productos.module').then((m) => m.ProductosPageModule),
   },
   {
     path: 'home',
@@ -46,6 +46,25 @@ const routes: Routes = [
     path: 'trabajos',
     loadChildren: () => import('./pages/trabajos/trabajos.module').then( m => m.TrabajosPageModule)
   },
+  {
+    path: 'mis-datos',
+    canActivate: [AuthGuard], 
+    loadChildren: () => import('./pages/mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
+  },
+  {
+    path: 'product-detalle/:id',
+    canActivate: [AuthGuard], 
+    loadChildren: () => import('./pages/product-detalle/product-detalle.module').then( m => m.ProductDetallePageModule)
+  },
+  {
+    path: 'carrito',
+    canActivate: [AuthGuard], 
+    loadChildren: () => import('./pages/carrito/carrito.module').then( m => m.CarritoPageModule)
+  },  {
+    path: 'recuperacion-pass',
+    loadChildren: () => import('./pages/recuperacion-pass/recuperacion-pass.module').then( m => m.RecuperacionPassPageModule)
+  },
+
 ];
 
 @NgModule({

@@ -1,0 +1,68 @@
+<ion-content class="ion-padding">
+  <div class="insert_container">
+    <form class="insert_form mt-1" [formGroup]="insertProductoForm" (ngSubmit)="onSubmit()">
+      <h1 class="text-danger">Insertar producto</h1>
+      <ion-list class="">
+        <!-- Nombre_producto -->
+        <ion-item>
+          <ion-note
+            *ngIf="insertProductoForm.controls['nombre_producto'].invalid && insertProductoForm.controls['nombre_producto'].touched"
+            color="danger" style="font-size: 7px;">
+            *obligatorio
+          </ion-note>
+          <ion-input formControlName="nombre_producto" label="Nombre producto" labelPlacement="floating"
+            placeholder=""></ion-input>
+        </ion-item>
+        <!-- descripcion -->
+        <ion-item>
+          <ion-note
+            *ngIf="insertProductoForm.controls['descripcion'].invalid && insertProductoForm.controls['descripcion'].touched"
+            color="danger" style="font-size: 7px;">
+            *obligatorio
+          </ion-note>
+          <ion-input formControlName="descripcion" label="Descripción" labelPlacement="floating"
+            placeholder=""></ion-input>
+        </ion-item>
+        <!-- precio -->
+        <ion-item>
+          <ion-note
+            *ngIf="insertProductoForm.controls['precio'].invalid && insertProductoForm.controls['precio'].touched"
+            color="danger" style="font-size: 7px;">
+            *obligatorio
+          </ion-note>
+          <ion-input formControlName="precio" type="number" min="0" label="precio" labelPlacement="floating"
+            placeholder=""></ion-input>
+        </ion-item>
+        <!-- stock -->
+        <ion-item>
+          <ion-note *ngIf="insertProductoForm.controls['stock'].invalid && insertProductoForm.controls['stock'].touched"
+            color="danger" style="font-size: 7px;">
+            *obligatorio
+          </ion-note>
+          <ion-input formControlName="stock" type="number" label="stock" labelPlacement="floating" min="1"></ion-input>
+        </ion-item>
+        <!-- categoria -->
+        <ion-item>
+          <ion-note
+            *ngIf="insertProductoForm.controls['categoria'].invalid && insertProductoForm.controls['categoria'].touched"
+            color="danger" style="font-size: 7px;">
+            *Selecciona
+          </ion-note>
+          <ion-select formControlName="categoria" placeholder="Selecciona una categoría" label="Categoría"
+            labelPlacement="floating">
+            <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Imagen -->
+        <ion-item>
+          <input formControlName="img" type="file" (change)="onFileChange($event)" accept="image/*"
+            label="Imagen producto" labelPlacement="floating" />
+        </ion-item>
+      </ion-list>
+      <ion-button expand="full" type="submit" [disabled]="insertProductoForm.invalid">Registrar</ion-button>
+    </form>
+  </div>
+</ion-content>

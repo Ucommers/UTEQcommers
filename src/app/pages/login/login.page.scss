@@ -1,5 +1,5 @@
 ion-button {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 ion-input {
@@ -10,6 +10,13 @@ ion-list {
   margin: 0px;
 }
 
+.barra_login {
+  // background: linear-gradient(to bottom, var(--primary-all-v1) 0%, #0a5ae377 100%) !important;
+  // background: linear-gradient(to bottom, var(--primary-all-v1) 0%, rgba(255, 255, 255, 1) 100%) !important;
+  padding: 1px;
+}
+
+
 .register-link {
   margin-top: 16px;
   text-align: center;
@@ -17,6 +24,48 @@ ion-list {
 
 // --- ---- --- --- --- --- --- --- --- --- --- --- 
 
+  //  --- ---- Login 
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // height: 100vh;
+    padding: 20px;
+  }
+
+  .login-form {
+    background-color: #f3f3f350;
+    /* Color de fondo de la carta */
+    padding: 20px;
+    border-radius: 12px;
+    /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
+    /* Sombra sutil */
+    width: 100%;
+    max-width: 400px;
+    /* Ancho máximo de la carta */
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    width: 150px;
+    height: auto;
+    /* Mantener proporciones del logo */
+  }
+
+  .buttons-container ion-button {
+    margin-top: 10px;
+  }
+
+
+
+
+// --- Movil 📱 ---
 
 /* Para pantallas de móviles (hasta 480px) */
 @media (max-width: 480px) {
@@ -27,16 +76,6 @@ ion-list {
   .img_v2 {
     width: 35%;
     height: auto;
-  }
-
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /*ALtura*/
-    height: 85%;
-    padding: 0px;
   }
 }
 
@@ -51,35 +90,23 @@ ion-list {
     height: auto;
   }
 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /*ALtura*/
-    height: 85%;
-    padding: 0px;
-  }
+  
 }
 
-// --- WEB ☢️ ---
+// --- WEB 💻 ---
 
 /* Para pantallas de tablets grandes (entre 769px y 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
+  ion-content {
+    --padding-top: 4rem !important;
+  }
+
   .img_v2 {
     width: 30%;
     height: auto;
   }
 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /*ALtura*/
-    height: 60%;
-    padding: 0px;
-  }
+  
 }
 
 /* Para pantallas de escritorio pequeñas (entre 1025px y 1280px) */
@@ -89,15 +116,8 @@ ion-list {
     height: auto;
   }
 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /*ALtura*/
-    height: 75%;
-    padding: 0px;
-  }
+  
+
 }
 
 /* Para pantallas de escritorio grandes (más de 1280px) */
@@ -107,13 +127,5 @@ ion-list {
     height: auto;
   }
 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /*ALtura*/
-    height: 75%;
-    padding: 0px;
-  }
+  
 }
