@@ -3,9 +3,12 @@ import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { environment } from '../../../environments/environment.prod';
 
 
+=======
+>>>>>>> 0dfb8af68adabd087b37ef7c07292ce9de6ff819
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.page.html',
@@ -17,7 +20,10 @@ export class CarritoPage implements OnInit {
   public isLargeScreen: boolean;
   Id_User: any; //guarda el id user
   mensaje: any;
+<<<<<<< HEAD
   urlImg: string | undefined;
+=======
+>>>>>>> 0dfb8af68adabd087b37ef7c07292ce9de6ff819
 
   constructor(
     private CarritoService: CarritoService,
@@ -35,9 +41,19 @@ export class CarritoPage implements OnInit {
   }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.urlImg = environment.urlImg;
     this.currentUser = this.AuthService.currentUserValue;
     this.Id_User = this.currentUser.id;
+=======
+    this.currentUser = this.AuthService.currentUserValue;
+    this.Id_User = this.currentUser.id;
+    // console.log(this.Id_User);
+
+    // Trae todos los productos del carrito
+    // this.showAlert(response.msj, 'Success ✅');
+    // this.refreshPage()
+>>>>>>> 0dfb8af68adabd087b37ef7c07292ce9de6ff819
     this.GetCarrito();
   }
 
@@ -87,6 +103,7 @@ export class CarritoPage implements OnInit {
       (response) => {
         // this.refreshPage()
         this.ionViewWillEnter();
+        this.refreshPage()
         // this.GetCarrito();
       },
       (error) => {

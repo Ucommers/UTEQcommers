@@ -162,7 +162,6 @@ export class SplitPanePage implements OnInit {
       }
     );
   }
-
   async showAlert(message: string, tex: string) {
     const alert = await this.alertController.create({
       header: tex,

@@ -8,7 +8,8 @@
       {
         "ignore": [
           "meta[name=color-scheme]",
-          "meta[name=theme-color]"
+          "meta[name=theme-color]",
+          "img[loading]"
         ]
       }
     ],
@@ -28,6 +29,12 @@
       }
     ],
     "apple-touch-icons": "off",
-    "manifest-exists": "off"
+    "manifest-exists": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
+    ]
   }
 }
