@@ -60,6 +60,40 @@
     gap: 30px; // Separación entre elementos
 }
 
+.cont_msj {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.text_msj {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.contador {
+    display: flex; /* Organiza los elementos en fila */
+    align-items: center; /* Alinea verticalmente en el centro */
+    justify-content: space-between; /* Espacio uniforme entre elementos */
+    width: 100%; /* Asegura que ocupe todo el espacio disponible */
+  }
+  
+  .contador ion-button {
+    margin: 0 5px; /* Espaciado horizontal entre los botones y el input */
+    padding: 0 10px; /* Ajusta el tamaño de los botones */
+  }
+  
+  .contador ion-input {
+    text-align: center; /* Centra el contenido del campo */
+    width: 50px; /* Ajusta el ancho del input */
+    margin: 0 5px; /* Espaciado entre input y botones */
+  }
+  
+
+
+
+
 
 
 /* Para pantallas de móviles (hasta 480px) */

@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+  // BehaviorSubject para manejar la cantidad de productos en el carrito
+  private cantidadProductos = new BehaviorSubject<number>(0);
+  // Observable para q otras partes de la aplicación puedan escuchar cambios
+  cantidadProductos$ = this.cantidadProductos.asObservable();
+
+  
   constructor(private http: HttpClient) {}
 
   //☢️ Método para agregar un nuevo producto
@@ -22,27 +28,34 @@ export class ProductsService {
     return this.http.get<any>(`${environment.apiUrl}/all-productos`);
   }
 
-  // ☢️ 
+  // ☢️
   getProductoPorId(id: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/get-producto/${id}`);
   }
 
   // ☢️
-  agregarProductoAlCarrito(productoId: number, userId: number): Observable<any> {
+  agregarProductoAlCarrito(
+    productoId: number,
+    userId: number
+  ): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/insert-carrito/${productoId}/${userId}`,
       null
     );
   }
+  
   // ☢️ Método Trae todos los productos
   getCategorias(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/get-categorias`);
   }
 
   //☢️
-  filtrarProductos(categoriaId: number): Observable<any>{
+  filtrarProductos(categoriaId: number): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/get-productos-filtro/${categoriaId}`
     );
   }
+
+
+
 }

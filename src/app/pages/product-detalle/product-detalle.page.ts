@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../services/products.service'; // Asegúrate de tener un servicio para obtener el producto
 import { NavController, AlertController, Platform, MenuController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { ProductsService } from '../../services/products.service'; 
+import { CarritoService } from '../../services/carrito.service'; 
+import { environment } from '../../../environments/environment.prod';
+
 
 @Component({
   selector: 'app-product-detalle',
@@ -15,10 +18,12 @@ export class ProductDetallePage implements OnInit {
   Id_User: any;
   categorias: any[] = [];
   public isLargeScreen: boolean;
+  urlImg: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
+    private carritoService: CarritoService,
     private alertController: AlertController,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
@@ -37,6 +42,7 @@ export class ProductDetallePage implements OnInit {
 
   // ☢️ Funcion q se ejecuta al ingresar a la view
   ngOnInit() {
+    this.urlImg = environment.urlImg;
     const productId = this.route.snapshot.paramMap.get('id');
     this.cargarProducto(productId);
 
@@ -52,8 +58,6 @@ export class ProductDetallePage implements OnInit {
       this.productsService.getProductoPorId(id).subscribe(
         (response) => {
           this.producto = response.producto;
-          // let stock = this.producto.stock;
-          // console.log(stock);
         },
         (error) => {
           console.error('Error al obtener el producto:', error);
@@ -92,6 +96,9 @@ export class ProductDetallePage implements OnInit {
     this.productsService.agregarProductoAlCarrito(productoId, userId).subscribe(
       (response: any) => {
         this.showAlert(response.msj, 'success ✅');
+        
+        const nuevaCantidad = response.contadorCarrito; 
+        this.carritoService.actualizarCantidad(nuevaCantidad);
       },
       (error) => {
         const errorMessage = error.error.msj ;

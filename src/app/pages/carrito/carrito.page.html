@@ -1,14 +1,9 @@
 <ion-content>
-  <ion-title  *ngIf="mensaje">
-    <span class="text-danger">{{ mensaje }}</span>
-    <br>
-    <ion-button  class="ms-3" (click)="refreshPage()">
-      Reload
-    </ion-button>
-  </ion-title>
+  <div *ngIf="mensaje" class="cont_msj">
+    <h5 class="text-danger text_msj">{{ mensaje }}</h5>
+  </div>
   <ion-grid *ngFor="let vendedor of productos | keyvalue" class="carstas_x_vendedor">
     <ion-row>
-
       <span class="card_productos_carrito">
         <ion-card *ngFor="let producto of vendedor.value.productos">
           <ion-grid>
@@ -16,8 +11,7 @@
 
               <ion-col>
                 <div class="espacio_img">
-                  <img [src]="'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen"
-                    alt="imagen del producto" class="imagen_producto" />
+                  <img [src]="urlImg + '/' + producto.imagen" alt="imagen del producto" class="imagen_producto" />
                 </div>
               </ion-col>
 
@@ -43,22 +37,44 @@
 
               <ion-col class="seccion_cantidad">
                 <ion-item>
-                  <ion-select placeholder="Selecciona" interface="popover" value="1">
-                    <ion-select-option *ngFor="let i of [producto.stock]" [value]="i">{{ i }}</ion-select-option>
-                  </ion-select>
+                  <div class="contador">
+                    <!-- Botón de decremento -->
+                    <ion-button size="small" color="primary" fill="outline" (click)="decrementarCantidad(producto)"
+                      [disabled]="producto.cantidad <= 1">
+                      -
+                    </ion-button>
+
+                    <!-- Campo de entrada -->
+                    <ion-input type="number" [(ngModel)]="producto.cantidad" [value]="producto.cantidad" readonly>
+                    </ion-input>
+
+                    <!-- Botón de incremento -->
+                    <ion-button size="small" color="secondary" fill="outline" (click)="incrementarCantidad(producto)"
+                      [disabled]="producto.cantidad >= producto.stock">
+                        +
+                    </ion-button>
+                  </div>
                 </ion-item>
               </ion-col>
-
             </ion-row>
           </ion-grid>
         </ion-card>
       </span>
 
-
       <ion-card class="total_pagar_x_vendedor">
         <h5>Resumen de compra</h5>
         <h6>{{ vendedor.value.NombreVendedor }}</h6>
         <hr>
+        <p class="text-danger">Productos</p>
+        <div class="text-muted">
+          <p>
+            <span *ngFor="let producto of vendedor.value.productos">
+              {{ producto.nombre }} | ${{producto.precio}} | $360.00
+              <br>
+            </span>
+          </p>
+        </div>
+        <ion-button color="success">Pagar</ion-button>
       </ion-card>
 
     </ion-row>
@@ -66,3 +82,4 @@
 
 
 </ion-content>
+[*]  

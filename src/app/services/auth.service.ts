@@ -61,24 +61,25 @@ export class AuthService {
   }
 
   // ☢️ Método para registrar usuario
-  register(registerForm: any): Observable<any> {
-    
+  register(formData: FormData): Observable<any> {
+    // Extrae los valores directamente de formData
     const userData = {
-      nombre: registerForm.nombre,
-      apellido_paterno: registerForm.apellido_paterno,
-      apellido_materno: registerForm.apellido_materno,
-      email: registerForm.email,
-      password: registerForm.password,
-      vendedor: registerForm.wantsToSell,
-      checkMedico: true,
+        nombre: formData.get('nombre'),
+        apellido_paterno: formData.get('apellido_paterno'),
+        apellido_materno: formData.get('apellido_materno'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        vendedor: formData.get('wantsToSell'),
+        tipoGmail: formData.get('tipoGmail'),
+        numberaVerificar: formData.get('numberaVerificar')
     };
 
     return this.http.post<any>(`${environment.apiUrl}/registro`, userData).pipe(
-      tap((response) => {
-        console.log('Registro exitoso:', response);
-      })
+        tap((response) => {
+            console.log('Registro exitoso:', response);
+        })
     );
-  }
+}
 
   // ☢️ Método pasra cerrar sesión
   logout() {

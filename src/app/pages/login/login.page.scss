@@ -24,45 +24,65 @@ ion-list {
 
 // --- ---- --- --- --- --- --- --- --- --- --- --- 
 
-  //  --- ---- Login 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // height: 100vh;
-    padding: 20px;
+//  --- ---- Login 
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // height: 100vh;
+  padding: 20px;
+}
+
+.login-form {
+  background-color: #f3f3f350;
+  /* Color de fondo de la carta */
+  padding: 20px;
+  border-radius: 12px;
+  /* Bordes redondeados */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
+  /* Sombra sutil */
+  width: 100%;
+  max-width: 400px;
+  /* Ancho máximo de la carta */
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  /* Mantener proporciones del logo */
+}
+
+.buttons-container ion-button {
+  margin-top: 10px;
+}
+
+.btns_all {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn_all {
+  background-color: #62626221;
+  width: 100%;
+  color: black;
+  border-radius: 25px;
+  border: 1px solid #2757b7;
+  padding: 8px;
+  &:hover{
+    background-color: #6262624f;
   }
-
-  .login-form {
-    background-color: #f3f3f350;
-    /* Color de fondo de la carta */
-    padding: 20px;
-    border-radius: 12px;
-    /* Bordes redondeados */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
-    /* Sombra sutil */
-    width: 100%;
-    max-width: 400px;
-    /* Ancho máximo de la carta */
-  }
-
-  .logo-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  .logo {
-    width: 150px;
-    height: auto;
-    /* Mantener proporciones del logo */
-  }
-
-  .buttons-container ion-button {
-    margin-top: 10px;
-  }
-
-
+}
+.btn_all:disabled{
+  cursor: not-allowed !important;
+  opacity: 0.4;
+}
 
 
 // --- Movil 📱 ---
@@ -90,7 +110,7 @@ ion-list {
     height: auto;
   }
 
-  
+
 }
 
 // --- WEB 💻 ---
@@ -106,7 +126,7 @@ ion-list {
     height: auto;
   }
 
-  
+
 }
 
 /* Para pantallas de escritorio pequeñas (entre 1025px y 1280px) */
@@ -116,7 +136,7 @@ ion-list {
     height: auto;
   }
 
-  
+
 
 }
 
@@ -127,5 +147,5 @@ ion-list {
     height: auto;
   }
 
-  
+
 }

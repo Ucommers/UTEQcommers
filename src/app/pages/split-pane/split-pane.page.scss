@@ -12,7 +12,7 @@
   --background: rgba(255, 255, 255, 0.098); // Asegúrate de que el fondo sea transparente
   border: none; // Elimina cualquier borde existente
   border-bottom: 1px solid #fefefe; // Añade una línea inferior
-  padding: 0px; // Asegúrate de que no haya padding adicional
+  padding: 0px;
   color: #ffffff;
   // width: auto;
   margin-right: 7px;
@@ -23,16 +23,12 @@
 @keyframes slideInRight {
   0% {
     transform: translateX(-100%);
-    /* Posición inicial fuera de la pantalla */
     opacity: 0;
-    /* Invisible al principio */
   }
 
   100% {
     transform: translateX(0);
-    /* Posición final */
     opacity: 1;
-    /* Totalmente visible */
   }
 }
 
@@ -43,7 +39,6 @@
 
 
 // ----------------- 
-// -----------------
 
 // Boton que solo aparece en web 
 .custom-fab {
@@ -89,6 +84,38 @@
   margin-left: 5px;
   width: 1%;
   height: auto;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  background-color: rgba(255, 16, 16, 0.916);
+  color: white;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  padding: 0;
+}
+
+.cart-badge-mobil {
+  position: absolute;
+  top: 2px;
+  right: 20px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 0;
 }
 
 // ----------------- 
@@ -212,3 +239,4 @@
   }
 
 }
+

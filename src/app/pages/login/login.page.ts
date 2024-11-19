@@ -24,24 +24,22 @@ export class LoginPage implements OnInit {
   ) {
     
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required], // Campo de usuario, obligatorio
-      password: ['', Validators.required], // Campo de contraseña, obligatorio
+      username: ['', Validators.required], 
+      password: ['', Validators.required], 
     });
 
   }
 
   // Método del ciclo de vida de Angular que se ejecuta al inicializar el componente
   ngOnInit() {
-    // Se asegura de que el formulario esté inicializado con validaciones en el momento en que el componente se carga
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required], // Campo de usuario, obligatorio
-      password: ['', Validators.required], // Campo de contraseña, obligatorio
+      username: ['', Validators.required], 
+      password: ['', Validators.required], 
     });
   }
 
   // ☢️ Método para manejar el envío del formulario de login  
   async onSubmit() {
-    // Verifica si el formulario es inválido, si lo es, no hace nada
     if (this.loginForm.invalid) {
       return;
     }
@@ -51,8 +49,8 @@ export class LoginPage implements OnInit {
     // Llama al servicio de autenticación para iniciar sesión con el nombre de usuario y la contraseña
     this.AuthService
       .login(
-        this.loginForm.controls['username'].value, // Valor del campo username
-        this.loginForm.controls['password'].value // Valor del campo password
+        this.loginForm.controls['username'].value, 
+        this.loginForm.controls['password'].value 
       )
       .subscribe({
         // Si la autenticación es exitosa, oculta el loading y navega a la página de inicio

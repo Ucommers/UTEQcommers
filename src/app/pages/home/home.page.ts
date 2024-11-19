@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ export class HomePage implements OnInit {
   categorias: any[] = [];
   isModalOpen = false;
   public isLargeScreen: boolean;
+  urlImg: string | undefined;
 
   constructor(
     private ProductsService: ProductsService,
@@ -28,6 +30,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.urlImg = environment.urlImg;
     // Trae todos los productos
     this.ProductsService.getProductos().subscribe(
       (response) => {
@@ -98,6 +101,8 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
 
   }
+
+  
 }
 
 /**

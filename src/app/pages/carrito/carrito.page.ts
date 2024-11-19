@@ -3,6 +3,9 @@ import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
+
+
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.page.html',
@@ -14,6 +17,7 @@ export class CarritoPage implements OnInit {
   public isLargeScreen: boolean;
   Id_User: any; //guarda el id user
   mensaje: any;
+  urlImg: string | undefined;
 
   constructor(
     private CarritoService: CarritoService,
@@ -31,13 +35,9 @@ export class CarritoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.urlImg = environment.urlImg;
     this.currentUser = this.AuthService.currentUserValue;
     this.Id_User = this.currentUser.id;
-    // console.log(this.Id_User);
-
-    // Trae todos los productos del carrito
-    // this.showAlert(response.msj, 'Success ✅');
-    // this.refreshPage()
     this.GetCarrito();
   }
 
@@ -85,7 +85,8 @@ export class CarritoPage implements OnInit {
   async eliminarDelCarrito(ProductoId: number, IdUser: number) {
     this.CarritoService.EliminarDelCarrito(ProductoId, IdUser).subscribe(
       (response) => {
-        this.refreshPage()
+        // this.refreshPage()
+        this.ionViewWillEnter();
         // this.GetCarrito();
       },
       (error) => {
@@ -98,13 +99,27 @@ export class CarritoPage implements OnInit {
   async GetCarrito() {
     this.CarritoService.getProductos(this.Id_User).subscribe(
       (response) => {
-        this.productos = response.productosPorVendedor;
+        console.log(response)
+        if (response.status === true) {
+          // Inicializa la cantidad de cada producto
+          this.productos = Object.values(response.productosPorVendedor).map((vendedor: any) => {
+            vendedor.productos = vendedor.productos.map((producto: any) => ({
+              ...producto,
+              cantidad: 1 // Agrega la propiedad cantidad con valor inicial
+            }));
+            return vendedor;
+          });
+
+          let nuevaCantidad = response.ContadorCarrito;
+          this.CarritoService.actualizarCantidad(nuevaCantidad);
+        } else if (response.status === false) {
+          this.productos = [];
+          this.CarritoService.actualizarCantidad(0);
+          this.mensaje = response.msj;
+        }
       },
       (error) => {
-        const errorMessage = error.error.msj;
-        // this.showAlert(errorMessage, 'Error ❌');
-        this.mensaje = errorMessage;
-        // console.error('Error al agregar producto al carrito:', error);
+        const errorMessage = error;
       }
     );
   }
@@ -113,5 +128,22 @@ export class CarritoPage implements OnInit {
     location.reload(); // Esto recarga la página actual
   }
 
+  ionViewWillEnter() {
+    this.GetCarrito();
+    this.mensaje = null;
+  }
 
+  incrementarCantidad(producto: any) {
+    // console.log(producto)
+    if (producto.cantidad < producto.stock) {
+      producto.cantidad++;
+    }
+  }
+
+  decrementarCantidad(producto: any) {
+    // console.log(producto)
+    if (producto.cantidad > 1) {
+      producto.cantidad--;
+    }
+  }
 }

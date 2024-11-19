@@ -21,7 +21,7 @@
           <h1 class="nombre_producto" *ngIf="!isLargeScreen">{{ producto.nombre }}</h1>
           <div class="espacio_img">
             <img
-              [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
+              [src]="producto.imagen ? urlImg +'/' + producto.imagen : 'assets/img_all/XD.jpg'"
               alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
           </div>
         </ion-col>
@@ -45,7 +45,7 @@
             <h6 class="titulo_vendedor">Vendedor</h6>
             <div class="contenedor_info">
               <div class="espacio_img_perfil">
-                <img src="assets/img_all/perfil.avif" alt="Logo" class="imagen_prfil" loading="lazy">
+                <img src="assets/images/avatar1.png" alt="Logo" class="imagen_prfil" loading="lazy">
               </div>
               <div class="profile_text">
                 {{ producto.user.nombre }} 
@@ -54,9 +54,7 @@
               </div>
             </div>
           </ion-card>
-          
         </ion-col>
-
       </ion-row>
     </ion-grid>
   </div>

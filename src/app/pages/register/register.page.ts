@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { enviarCodigoService } from '../../services/enviarCodigo.service'; // Ajusta la ruta según sea necesario
 import { Router } from '@angular/router';
 import {
   AbstractControl,
@@ -22,12 +23,13 @@ export class RegisterPage implements OnInit {
   public isLoggedIn: boolean = false;
   wantsToSell: string = 'no';
   showPassword: boolean = false;
-  currentStep: number = 1; 
+  currentStep: number = 1;
 
   constructor(
     private formBuilder: FormBuilder,
     private loadingController: LoadingController,
     private authService: AuthService,
+    private enviarCodigoService: enviarCodigoService,
     private alertController: AlertController,
     private router: Router
   ) {}
@@ -44,7 +46,9 @@ export class RegisterPage implements OnInit {
         ],
         password: ['', [Validators.required, this.passwordValidator]],
         confirm_password: ['', Validators.required],
-        wantsToSell: ['', Validators.required],
+        wantsToSell: ['', []], 
+        numberaVerificar: ['', Validators.required],
+        checkconfirmacionCodigo: [false, Validators.requiredTrue],
       },
       {
         validator: this.passwordMatchValidator,
@@ -56,7 +60,56 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  // ☢️ Método para manejar el envío del formulario de registro
+  async onSubmit() {
+    if (this.registerForm.invalid) {
+      return;
+    }
+    // Muestra un loading mientras se procesa el registro
+    await this.presentLoading();
 
+    const email = this.registerForm.get('email')?.value;
+    const localPart = email.split('@')[0];
+    const value = /^\d+$/.test(localPart);
+
+    // Crea un nuevo objeto FormData
+    const formData = new FormData();
+
+    // Agrega manualmente los valores del formulario a FormData
+    formData.append('nombre', this.registerForm.get('nombre')?.value);
+    formData.append(
+      'apellido_paterno',
+      this.registerForm.get('apellido_paterno')?.value
+    );
+    formData.append(
+      'apellido_materno',
+      this.registerForm.get('apellido_materno')?.value
+    );
+    formData.append('email', this.registerForm.get('email')?.value);
+    formData.append('password', this.registerForm.get('password')?.value);
+    formData.append('wantsToSell', this.registerForm.get('wantsToSell')?.value);
+    formData.append('tipoGmail', value.toString());
+    formData.append(
+      'numberaVerificar',
+      this.registerForm.get('numberaVerificar')?.value
+    );
+
+    this.authService.register(formData).subscribe({
+      next: async (response) => {
+        await this.dismissLoading();
+        console.log('Usuario registrado con éxito', response);
+        // this.router.navigate(['star/login']);
+          window.location.href = '/star/login';
+      },
+      error: async (error) => {
+        console.error('Error en el registro', error);
+        await this.dismissLoading();
+        const errorMessage =
+          error.error.msj ;
+        await this.presentErrorAlert(errorMessage);
+      },
+    });
+  }
 
   // Validador personalizado para el email de UTEQ
   emailValidator(control: AbstractControl): ValidationErrors | null {
@@ -64,9 +117,8 @@ export class RegisterPage implements OnInit {
     return emailRegex.test(control.value) ? null : { emailInvalid: true };
   }
 
-  // Validador personalizado para la contraseña
   passwordValidator(control: AbstractControl): ValidationErrors | null {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(control.value) ? null : { passwordInvalid: true };
   }
 
@@ -80,27 +132,7 @@ export class RegisterPage implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  // ☢️ Método para manejar el envío del formulario de registro
-  async onSubmit() {
-    if (this.registerForm.invalid) {
-      return;
-    }
-    // Muestra un loading mientras se procesa el registro
-    await this.presentLoading();
 
-    this.authService.register(this.registerForm.value).subscribe({
-      next: async (response) => {
-        await this.dismissLoading();
-        console.log('Usuario registrado con éxito', response);
-        this.router.navigate(['star/login']);
-      },
-      error: async (error) => {
-        console.error('Error en el registro', error);
-        await this.dismissLoading();
-        await this.presentErrorAlert(error.error.message);
-      },
-    });
-  }
   nextStep() {
     this.currentStep++;
   }
@@ -108,12 +140,72 @@ export class RegisterPage implements OnInit {
   previousStep() {
     this.currentStep--;
   }
+
+  onNumberInput(event: any) {
+    let input = event.target.value;
+    input = input.replace(/\D/g, ''); // Elimina cualquier carácter que no sea un número
+    input = input.replace(/(\d{2})(?=\d)/g, '$1 '); // Agrega un espacio después de cada dos dígitos
+    event.target.value = input;
+    this.registerForm.controls['numberaVerificar'].setValue(input); // Actualiza el valor en el formulario
+  }
+
+  checkEmailAndProceed() {
+    const email = this.registerForm.get('email')?.value;
+    const localPart = email.split('@')[0];
+    const val = /^\d+$/.test(localPart);
+
+    // Verifica si el correo es válido y si la parte local tiene solo números
+    if (val === true) {
+      // console.log(val, localPart);
+      this.currentStep = 1; // uno para que me lleva al 2
+      this.nextStep();
+    } else if (val === false) {
+      this.currentStep = 2; // dos para que me lleva al 3 sin pasar por el 2
+      this.nextStep();
+    }
+  }
+
+  verificaEmail() {
+    // console.log(this.currentStep);
+    const email = this.registerForm.get('email')?.value;
+    const localPart = email.split('@')[0];
+    const val = /^\d+$/.test(localPart);
+
+    // Verifica si el correo es válido y si la parte local tiene solo números
+    if (val === true) {
+      this.currentStep = 1; // uno para que me lleva al 2
+      this.nextStep();
+    } else if (val === false) {
+      this.currentStep = 0; // cero para que me lleva al 1
+      this.nextStep();
+    }
+  }
+
+  async EnviarCodigo() {
+    const gmail = this.registerForm.get('email')?.value;
+    // Muestra un loading mientras se procesa el registro
+    await this.presentLoading();
+    this.enviarCodigoService.EnviarCodigo(gmail).subscribe(
+      (response) => {
+        this.dismissLoading();
+        this.nextStep();
+      },
+      (error) => {
+        this.dismissLoading();
+        // console.error('Error al enviar el código:', error);
+        const errorMessage =
+          error.error.msj ;
+        this.presentErrorAlert(errorMessage);
+      }
+    );
+  }
+
   // ☢️ Muestra el loading (spinner o animación de carga) mientras se procesa alguna acción
   async presentLoading() {
     this.loading = await this.loadingController.create({
       spinner: 'crescent',
-      message: 'Registrando...',
-      cssClass: 'my-custom-loading-3',
+      message: 'Cargando...',
+      // cssClass: 'my-custom-loading-3',
     });
     await this.loading.present();
   }
@@ -128,7 +220,7 @@ export class RegisterPage implements OnInit {
   // ☢️ Muestra una alerta de error en caso de que el registro falle
   async presentErrorAlert(message: string) {
     const alert = await this.alertController.create({
-      header: 'Error',
+      header: 'Error ❌',
       message:
         message ||
         'Hubo un problema con el registro. Por favor, inténtalo de nuevo.',

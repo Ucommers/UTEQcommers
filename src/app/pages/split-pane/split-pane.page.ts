@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { AlertController, Platform, MenuController  } from '@ionic/angular';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AlertController, Platform, MenuController } from '@ionic/angular';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { ProductsService } from '../../services/products.service';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-split-pane',
@@ -13,10 +20,13 @@ import { ProductsService } from '../../services/products.service';
     trigger('slideInRight', [
       transition(':enter', [
         style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('500ms ease-in', style({ transform: 'translateX(0)', opacity: 1 }))
-      ])
-    ])
-  ]
+        animate(
+          '500ms ease-in',
+          style({ transform: 'translateX(0)', opacity: 1 })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class SplitPanePage implements OnInit {
   pagesWeb = [
@@ -24,21 +34,21 @@ export class SplitPanePage implements OnInit {
       title: 'Home',
       url: './home',
       icon: 'home',
-      tipo : ['comprador', 'vendedor', 'administrador'],
+      tipo: ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
       title: 'Trabajos',
       url: './trabajos',
       icon: 'code-working',
-      tipo : ['comprador', 'vendedor', 'administrador'],
+      tipo: ['comprador', 'vendedor', 'administrador'],
       authRequired: true,
     },
     {
       title: 'Productos',
       url: './productos',
       icon: 'logo-tux',
-      tipo : ['vendedor'],
+      tipo: ['vendedor'],
       authRequired: true,
     },
   ];
@@ -48,25 +58,24 @@ export class SplitPanePage implements OnInit {
       title: 'Ayuda',
       url: './ayuda',
       icon: 'help-outline',
-      tipo : ['comprador', 'vendedor', 'administrador'],
+      tipo: ['comprador', 'vendedor', 'administrador'],
       authRequired: false,
     },
     {
       title: 'Configuraciones',
       url: './configuraciones',
       icon: 'settings-sharp',
-      tipo : ['comprador', 'vendedor', 'administrador'],
+      tipo: ['comprador', 'vendedor', 'administrador'],
       authRequired: true,
     },
     {
       title: 'Mis datos',
       url: './mis-datos',
       icon: 'person-circle-outline',
-      tipo : ['comprador', 'vendedor', 'administrador'],
+      tipo: ['comprador', 'vendedor', 'administrador'],
       authRequired: true,
     },
   ];
-  
 
   productos: any[] = [];
   selectedPath = '';
@@ -74,13 +83,16 @@ export class SplitPanePage implements OnInit {
   public isLoggedIn: boolean = false;
   currentUser: any; // almacenar los datos del usuario
 
+  cantidadProductosCarrito: number = 0;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private alertController: AlertController,
     private platform: Platform,
+    private carritoService: CarritoService,
     private menuCtrl: MenuController,
-    private ProductsService: ProductsService,
+    private ProductsService: ProductsService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -94,27 +106,21 @@ export class SplitPanePage implements OnInit {
       this.checkScreenSize();
     });
   }
-  
-  // Función para abrir el menú lateral
-  openMenu() {
-    this.menuCtrl.open('main-menu');
-  }
-
-  closeMenu() {
-    this.menuCtrl.close('main-menu'); // Asegúrate de usar el menuId correcto
-  }
 
   // Observable: isLoggedIn$ emite valores que representan el estado de autenticación del usuario (es decir, si el usuario está o no logueado).
   // Actualización del estado: Cada vez que el observable emite un nuevo valor, la función de callback se ejecuta, actualizando la propiedad isLoggedIn con el valor actual (true o false). Esto permite que el componente responda a cambios en el estado de autenticación.
   ngOnInit() {
-    this.authService.isLoggedIn$.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn; 
+    // Suscribirse al observable para recibir actualizaciones automáticas
+    this.carritoService.cantidadProductos$.subscribe((cantidad) => {
+      this.cantidadProductosCarrito = cantidad;
     });
-    
-    // Obtener el usuario actual 
+
+    this.authService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
+
+    // Obtener el usuario actual
     this.currentUser = this.authService.currentUserValue;
-    // Mostrar los datos del usuario en la consola
-    console.log(this.currentUser);
   }
 
   checkScreenSize() {
@@ -137,7 +143,7 @@ export class SplitPanePage implements OnInit {
           handler: () => {
             this.closeMenu();
             this.authService.logout();
-            this.router.navigate(['star/home'], { replaceUrl: true }); 
+            this.router.navigate(['star/home'], { replaceUrl: true });
           },
         },
       ],
@@ -156,7 +162,7 @@ export class SplitPanePage implements OnInit {
       }
     );
   }
-  
+
   async showAlert(message: string, tex: string) {
     const alert = await this.alertController.create({
       header: tex,
@@ -167,6 +173,14 @@ export class SplitPanePage implements OnInit {
     await alert.present();
   }
 
+  // Función para abrir el menú lateral
+  openMenu() {
+    this.menuCtrl.open('main-menu');
+  }
+
+  closeMenu() {
+    this.menuCtrl.close('main-menu'); // Asegúrate de usar el menuId correcto
+  }
 }
 /*
 

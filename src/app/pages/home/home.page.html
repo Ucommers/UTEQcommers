@@ -7,8 +7,9 @@
         <img src="assets/images/all.png" alt="Logo" class="img_icon ms-1" loading="lazy">
       </ion-button>
 
-      <ion-button *ngFor="let categoria of categorias" class="btn_decorate_all size_text" (click)="filtroProductos(categoria.id)">
-        {{ categoria.nombre }} 
+      <ion-button *ngFor="let categoria of categorias" class="btn_decorate_all size_text"
+        (click)="filtroProductos(categoria.id)">
+        {{ categoria.nombre }}
         <!-- <img [src]="categoria.img" alt="Logo" class="img_icon ms-1" loading="lazy"> -->
       </ion-button>
     </ion-buttons>
@@ -31,7 +32,7 @@
         <img src="assets/images/tecnologia.png" alt="Logo" class="img_icon ms-1" loading="lazy">
       </ion-button>
     </ion-buttons> -->
-    
+
   </ion-toolbar>
 </ion-header>
 
@@ -42,32 +43,27 @@
       para ti!</p>
   </div> -->
   <div class="pocicion_cartas">
-    <ion-grid class="filas_cartas" *ngIf="isLargeScreen">
-      <ion-row>
-        <ion-col class="columna_producto" *ngFor="let producto of productos">
-          <ion-card class="tarjeta_producto animacion_carta" (click)="verDetalleProducto(producto.id)">
-            <!-- <ion-card class="nombre_vendedor">
-              <p>{{ producto.user.nombre }}</p>
-            </ion-card> -->
-            <img
-              [src]="producto.imagen ? 'https://cervaya.pro/ApiUcommers/storage/app/public/productos/' + producto.imagen : 'assets/img_all/XD.jpg'"
-              alt="Imagen de {{ producto.nombre }}" class="imagen_producto" />
-            <ion-card-header>
-              <ion-card-title class="titulo_producto">{{ producto.nombre }}</ion-card-title>
-              <ion-card-subtitle class="precio_producto">${{ producto.precio }} <span class="descuento">{{
-                  producto.stock
-                  }} exist</span></ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content class="contenido_producto">
-              <p>{{ producto.descripcion.length > 15 ? (producto.descripcion | slice:0:15) + '...' :
-                producto.descripcion }}</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <div class="contenedor_cartas">
+      <div class="carta_producto" *ngFor="let producto of productos" (click)="verDetalleProducto(producto.id)">
+        <h2 class="titulo_producto">{{ producto.nombre }}</h2>
+        <div class="cont_img">
+          <img
+            [src]="producto.imagen ? urlImg + '/' + producto.imagen : 'assets/img_all/XD.jpg'"
+            alt="Imagen {{ producto.nombre }}"
+            class="imagen_producto"
+          />
+        </div>
+        
+        <div class="carta_header">
+          <p class="precio_producto">${{ producto.precio }} <span class="descuento">{{ producto.stock }} exist</span>
+          </p>
+          <p class="contenido_producto">{{ producto.descripcion }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
-  <ion-list class="lista_productos" *ngIf="!isLargeScreen">
+  <!-- <ion-list class="lista_productos" *ngIf="!isLargeScreen">
     <ion-item class="item_completo" *ngFor="let producto of productos" (click)="verDetalleProducto(producto.id)">
       <ion-thumbnail slot="start">
         <img
@@ -82,5 +78,32 @@
         </p>
       </ion-label>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
+  <ion-footer>
+    <ion-toolbar color="none">
+      <ion-grid *ngIf="!isLargeScreen">
+        <ion-row>
+          <ion-col size="4" class="ion-text-center">
+            <ion-button fill="clear" >
+              <ion-icon name="home"></ion-icon>
+              <ion-label>Inicio</ion-label>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4" class="ion-text-center">
+            <ion-button fill="clear" >
+              <ion-icon name="cart"></ion-icon>
+              <ion-label>Carrito</ion-label>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4" class="ion-text-center">
+            <ion-button fill="clear">
+              <ion-icon name="person"></ion-icon>
+              <ion-label>Perfil</ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>
+  
 </ion-content>

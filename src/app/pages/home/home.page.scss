@@ -7,11 +7,13 @@ $color-texto: #666;
   width: 20px;
   height: auto;
 }
-.nombre_vendedor{
+
+.nombre_vendedor {
   position: absolute;
   padding: 2px;
   top: 1px;
 }
+
 .custom-toolbar {
   // arriba, derecha, abajo, izquierda
   padding: 0rem 0rem 0rem 0rem;
@@ -37,11 +39,7 @@ $color-texto: #666;
   display: block;
 }
 
-.pocicion_cartas {
-  position: absolute;
-  top: 0rem;
-  max-width: 2000px;
-}
+
 
 .filas_cartas {
   --ion-grid-padding: 20px; // Padding general para el grid
@@ -53,6 +51,62 @@ $color-texto: #666;
   font-family: 'Courier New', monospace;
 }
 
+
+.contenedor_cartas {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.carta_producto {
+  max-width: 260px;
+  background-color: #fff;
+  border-radius: 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.043);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  padding: 10px;
+}
+
+.titulo_producto {
+  font-weight: bold;
+  font-size: 14px;
+  color: $color-titulo;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+
+.carta_producto:hover {
+  // transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.19);
+}
+
+.carta_header {
+  margin: 0px;
+}
+
+.precio_producto {
+  color: $color-precio;
+  font-size: 1.2em;
+}
+
+.descuento {
+  font-size: 0.8em;
+  color: $color-descuento;
+}
+
+.contenido_producto {
+  color: $color-texto;
+}
 
 // ----- ANIMACIÓN DE LAS CARTAS 
 
@@ -138,29 +192,22 @@ ion-searchbar {
   background-color: #f4f4f4; // Color de fondo opcional 
 }
 
-.imagen_producto_list {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.titulo_producto_list {
-  font-weight: bold;
-  /* Aumenta el peso de la fuente para el título */
-}
-
-.precio_producto_list {
-  color: #3880ff;
-  /* Cambia el color del precio */
-}
-
-.descuento_list {
-  color: #999;
-  /* Cambia el color del stock */
-}
 
 .ocultar_movil {
   display: block;
+}
+
+ion-footer {
+  margin-top: 20px;
+
+  ion-toolbar {
+    --background: #3880ff;
+    color: white;
+  }
+
+  ion-button {
+    color: white;
+  }
 }
 
 
@@ -169,6 +216,35 @@ ion-searchbar {
 
 /* Para pantallas de móviles (hasta 480px) */
 @media (max-width: 480px) {
+
+  .contenedor_cartas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  .carta_producto {
+    max-width: 250px;
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.067);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+
+  .imagen_producto {
+    width: 100%;
+    height: 40%;
+    object-fit: cover;
+  }
+
+
   ion-header {
     margin-top: 3rem !important;
   }
@@ -193,6 +269,28 @@ ion-searchbar {
 
 /* Para pantallas de tablets pequeñas (entre 481px y 768px) */
 @media (min-width: 481px) and (max-width: 765px) {
+
+  .contenedor_cartas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  .carta_producto {
+    max-width: 250px;
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.043);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+
 
   ion-header {
     margin-top: 3rem !important;
@@ -228,16 +326,25 @@ ion-searchbar {
 
   // ----  CARTAS ----
 
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 0px;
-    transition: transform 0.2s;
-    width: 220px; // Establece la Ancho máxima de la tarjeta
+  .contenedor_cartas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
 
-    // overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
-    &:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
+  .carta_producto {
+    max-width: 250px;
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.043);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease;
   }
 
   .imagen_producto {
@@ -278,16 +385,25 @@ ion-searchbar {
 
   // ----  CARTAS ----
 
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 0px;
-    transition: transform 0.2s;
-    width: 250px; // Establece la Ancho máxima de la tarjeta
-    // overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
+  .contenedor_cartas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
 
-    &:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
+  .carta_producto {
+    max-width: 250px;
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.043);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease;
   }
 
   .imagen_producto {
@@ -327,18 +443,6 @@ ion-searchbar {
 
   // ----  CARTAS ----
 
-
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 0px;
-    transition: transform 0.2s;
-    width: 270px; // Establece la Ancho máxima de la tarjeta
-    overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
-
-    &:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
-  }
 
   .imagen_producto {
     width: 100%;
@@ -380,46 +484,21 @@ ion-searchbar {
 
   // ----  CARTAS ----
 
-  .tarjeta_producto {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 0px;
-    margin: 5px;
-    transition: transform 0.2s;
-    width: 250px; // Establece la Ancho máxima de la tarjeta
-    overflow: hidden; // Oculta cualquier contenido que exceda la altura máxima
 
-    &:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.352);
-    }
+  .cont_img {
+    width: 80%;
+    height: 230px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .imagen_producto {
-    width: 100%;
-    height: 200px;
     object-fit: cover;
-    margin: 0 auto;
-    padding: 0 auto;
   }
 
-  .titulo_producto {
-    font-weight: bold;
-    font-size: 14px;
-    color: $color-titulo;
-  }
-
-  .precio_producto {
-    color: $color-precio;
-    font-size: 1.2em;
-  }
-
-  .descuento {
-    font-size: 0.8em;
-    color: $color-descuento;
-  }
-
-  .contenido_producto {
-    color: $color-texto;
-  }
 
   // ---- FIN DE LA CARTA ---- 
 }
